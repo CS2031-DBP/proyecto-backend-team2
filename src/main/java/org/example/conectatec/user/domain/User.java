@@ -1,13 +1,13 @@
 package org.example.conectatec.user.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.conectatec.career.domain.Career;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -28,6 +28,5 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
 
 }
