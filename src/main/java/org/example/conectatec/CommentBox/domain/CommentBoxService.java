@@ -1,7 +1,7 @@
 package org.example.conectatec.commentBox.domain;
 
 import jakarta.transaction.Transactional;
-import org.example.conectatec.CommentBox.infrastructure.CommentBoxRepository;
+import org.example.conectatec.commentBox.infrastructure.CommentBoxRepository;
 import org.example.conectatec.studentPublications.domain.StudentPublications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +39,6 @@ public class CommentBoxService {
     public List<CommentBox> findAllComments() {
         return commentBoxRepository.findAll();
     }
+
 }
 
