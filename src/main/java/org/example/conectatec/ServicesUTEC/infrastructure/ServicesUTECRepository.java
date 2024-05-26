@@ -1,4 +1,4 @@
-package org.example.conectatec.ServicesUTEC.infrastructure;
+package org.example.conectatec.servicesUTEC.infrastructure;
 
 
 import jakarta.transaction.Transactional;

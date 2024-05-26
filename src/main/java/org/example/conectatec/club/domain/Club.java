@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.user.domain.User;
 
 @Entity
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import org.example.conectatec.career.domain.Career;
 @Getter
 @Setter
 
-public class Club {
+public class Club extends User {
 
     @Id
     @GeneratedValue
