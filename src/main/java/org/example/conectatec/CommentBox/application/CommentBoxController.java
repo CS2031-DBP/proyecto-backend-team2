@@ -1,4 +1,4 @@
-package org.example.conectatec.CommentBox.application;
+package org.example.conectatec.commentBox.application;
 
 
 
