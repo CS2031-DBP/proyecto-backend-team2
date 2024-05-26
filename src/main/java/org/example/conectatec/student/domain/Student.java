@@ -18,8 +18,6 @@ import org.example.conectatec.user.domain.User;
 @Setter
 public class Student extends User {
 
-    @Column(unique = true)
-    private String carrera;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Career career;
