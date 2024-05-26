@@ -1,13 +1,13 @@
-package org.example.conectatec.servicesUTECPublications.domain;
+package org.example.conectatec.sUTECFeed.domain;
 
 import jakarta.persistence.*;
 import org.example.conectatec.commentBox.domain.CommentBox;
-import org.example.conectatec.servicesUTEC.domain.ServicesUTEC;
+import org.example.conectatec.sUTEC.domain.ServicesUTEC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicesUTECPublications {
+public class ServicesUTECFeed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
