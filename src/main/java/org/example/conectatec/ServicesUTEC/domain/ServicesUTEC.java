@@ -14,7 +14,4 @@ public class ServicesUTEC extends User {
     @GeneratedValue
     private Long id;
 
-
-    @Column(nullable = false)
-    private String name_tec;
 }

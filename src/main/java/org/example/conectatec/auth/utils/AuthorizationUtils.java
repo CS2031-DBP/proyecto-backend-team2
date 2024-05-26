@@ -1,8 +1,8 @@
-package org.e2e.e2e.auth.utils;
+package org.example.conectatec.auth.utils;
 
-import org.e2e.e2e.user.domain.Role;
-import org.e2e.e2e.user.domain.User;
-import org.e2e.e2e.user.domain.UserService;
+
+import org.example.conectatec.user.domain.User;
+import org.example.conectatec.user.domain.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

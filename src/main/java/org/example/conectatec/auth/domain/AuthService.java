@@ -1,16 +1,13 @@
-package org.e2e.e2e.auth.domain;
+package org.example.conectatec.auth.domain;
 
 import org.e2e.e2e.auth.dto.JwtAuthResponse;
 import org.e2e.e2e.auth.dto.LoginReq;
-import org.e2e.e2e.auth.dto.RegisterReq;
-import org.e2e.e2e.auth.exceptions.UserAlreadyExistException;
-import org.e2e.e2e.config.JwtService;
-import org.e2e.e2e.driver.domain.Driver;
-import org.e2e.e2e.passenger.domain.Passenger;
-import org.e2e.e2e.user.domain.Role;
-import org.e2e.e2e.user.domain.User;
-import org.e2e.e2e.user.infrastructure.BaseUserRepository;
-import org.e2e.e2e.vehicle.domain.Vehicle;
+import org.example.conectatec.auth.dto.RegisterReq;
+
+import org.example.conectatec.auth.exceptions.UserAlreadyExistException;
+import org.example.conectatec.config.JwtService;
+import org.example.conectatec.user.domain.User;
+import org.example.conectatec.user.infrastructure.UserBaseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,13 +20,13 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    private final BaseUserRepository<User> userRepository;
+    private final UserBaseRepository<User> userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AuthService(BaseUserRepository<User> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
+    public AuthService(UserBaseRepository<User> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;

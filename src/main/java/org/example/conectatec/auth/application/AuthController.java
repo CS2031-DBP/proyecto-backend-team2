@@ -1,9 +1,10 @@
-package org.e2e.e2e.auth.application;
+package org.example.conectatec.auth.application;
 
-import org.e2e.e2e.auth.domain.AuthService;
+
 import org.e2e.e2e.auth.dto.JwtAuthResponse;
 import org.e2e.e2e.auth.dto.LoginReq;
-import org.e2e.e2e.auth.dto.RegisterReq;
+import org.example.conectatec.auth.domain.AuthService;
+import org.example.conectatec.auth.dto.RegisterReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

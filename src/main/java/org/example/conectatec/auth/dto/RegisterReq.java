@@ -1,4 +1,4 @@
-package org.e2e.e2e.auth.dto;
+package org.example.conectatec.auth.dto;
 
 import lombok.Data;
 import org.e2e.e2e.driver.domain.Category;

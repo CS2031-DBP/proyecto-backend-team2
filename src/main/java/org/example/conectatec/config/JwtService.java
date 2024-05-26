@@ -1,9 +1,10 @@
-package org.e2e.e2e.config;
+package org.example.conectatec.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.RequiredArgsConstructor;
-import org.e2e.e2e.user.domain.UserService;
+
+import org.example.conectatec.user.domain.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

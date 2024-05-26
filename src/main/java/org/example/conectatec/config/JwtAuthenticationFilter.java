@@ -1,4 +1,4 @@
-package org.e2e.e2e.config;
+package org.example.conectatec.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package org.e2e.e2e.config;
+package org.example.conectatec.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
