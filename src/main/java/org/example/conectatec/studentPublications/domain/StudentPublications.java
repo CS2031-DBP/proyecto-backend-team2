@@ -1,27 +1,42 @@
 package org.example.conectatec.studentPublications.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import org.example.conectatec.CommentBox.domain.CommentBox;
 import org.example.conectatec.student.domain.Student;
 
-@Entity
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Data
+
+@Entity
 @NoArgsConstructor
-public class StudentPublications extends Student {
-    @Getter
-    @Setter
+@AllArgsConstructor
+@Getter
+@Setter
+public class StudentPublications {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String hashtag;
 
+    @Column(nullable = false)
+    private String media;
+
+    @Column(nullable = false)
     private String answer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentBox> comments = new ArrayList<>();
 }
 
