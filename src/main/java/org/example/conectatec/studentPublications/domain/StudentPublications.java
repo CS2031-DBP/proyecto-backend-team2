@@ -29,8 +29,7 @@ public class StudentPublications {
     @Column(nullable = false)
     private String media;
 
-    @Column(nullable = false)
-    private String answer;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
