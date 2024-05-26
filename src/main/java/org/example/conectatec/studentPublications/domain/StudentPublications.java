@@ -2,7 +2,7 @@ package org.example.conectatec.studentPublications.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.conectatec.CommentBox.domain.CommentBox;
+import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.student.domain.Student;
 
 import java.util.ArrayList;

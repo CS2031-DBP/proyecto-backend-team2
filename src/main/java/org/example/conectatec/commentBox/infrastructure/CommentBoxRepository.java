@@ -1,6 +1,6 @@
-package org.example.conectatec.CommentBox.infrastructure;
+package org.example.conectatec.commentBox.infrastructure;
 
-import org.example.conectatec.CommentBox.domain.CommentBox;
+import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.studentPublications.domain.StudentPublications;
 import org.springframework.data.jpa.repository.JpaRepository;
 

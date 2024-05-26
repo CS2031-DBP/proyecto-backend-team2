@@ -1,8 +1,8 @@
-package org.example.conectatec.CommentBox.application;
+package org.example.conectatec.commentBox.application;
 
 
-import org.example.conectatec.CommentBox.domain.CommentBox;
-import org.example.conectatec.CommentBox.domain.CommentBoxService;
+import org.example.conectatec.commentBox.domain.CommentBox;
+import org.example.conectatec.commentBox.domain.CommentBoxService;
 import org.example.conectatec.studentPublications.domain.StudentPublications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
