@@ -1,4 +1,4 @@
-package org.example.conectatec.commentBox.domain;
+package org.example.conectatec.CommentBox.domain;
 
 
 import jakarta.persistence.*;
