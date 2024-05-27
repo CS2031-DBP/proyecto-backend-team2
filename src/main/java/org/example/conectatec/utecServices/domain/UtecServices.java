@@ -1,4 +1,4 @@
-package org.example.conectatec.sUTEC.domain;
+package org.example.conectatec.utecServices.domain;
 
 
 import jakarta.persistence.*;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.conectatec.sUTECFeed.domain.SUTECFeed;
+import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 import org.example.conectatec.user.domain.User;
 
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SUTEC extends User {
+public class UtecServices extends User {
 
     @OneToMany(mappedBy = "ServicesUTEC", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SUTECFeed> publications = new ArrayList<>();
+    private List<UtecServicesFeed> publications = new ArrayList<>();
 
 }

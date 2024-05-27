@@ -1,8 +1,8 @@
-package org.example.conectatec.sUTECFeed.domain;
+package org.example.conectatec.utecServicesFeed.domain;
 
 import jakarta.transaction.Transactional;
-import org.example.conectatec.sUTEC.domain.SUTEC;
-import org.example.conectatec.sUTECFeed.infrastructure.SUTECFeedRepository;
+import org.example.conectatec.utecServices.domain.UtecServices;
+import org.example.conectatec.utecServicesFeed.infrastructure.UtecServicesFeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,23 +10,23 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class SUTECFeedService {
+public class UtecServicesFeedService {
 
     @Autowired
-    private SUTECFeedRepository sutecfeedrepository;
+    private UtecServicesFeedRepository sutecfeedrepository;
 
     @Transactional
-    public SUTECFeed saveUtecServicesPublications(SUTECFeed servicesUTECPublications) {
+    public UtecServicesFeed saveUtecServicesPublications(UtecServicesFeed servicesUTECPublications) {
         return sutecfeedrepository.save(servicesUTECPublications);
     }
 
     @Transactional
-    public Optional<SUTECFeed> findUtecServicesPublicationsById(Long id) {
+    public Optional<UtecServicesFeed> findUtecServicesPublicationsById(Long id) {
         return sutecfeedrepository.findById(id);
     }
 
     @Transactional
-    public List<SUTECFeed> findPublicationsByUtecServices(SUTEC sutec) {
+    public List<UtecServicesFeed> findPublicationsByUtecServices(UtecServices sutec) {
         return sutecfeedrepository.findByServicesUTEC(sutec);
     }
 
@@ -36,7 +36,7 @@ public class SUTECFeedService {
     }
 
     @Transactional
-    public List<SUTECFeed> findAllPublications() {
+    public List<UtecServicesFeed> findAllPublications() {
         return sutecfeedrepository.findAll();
     }
 

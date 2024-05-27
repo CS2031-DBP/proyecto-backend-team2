@@ -1,13 +1,22 @@
-package org.example.conectatec.UTECServicesFeed.domain;
+package org.example.conectatec.utecServicesFeed.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.conectatec.commentBox.domain.CommentBox;
-import org.example.conectatec.UTECServices.domain.UTECServices;
+import org.example.conectatec.utecServices.domain.UtecServices;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicesUTECFeed {
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class UtecServicesFeed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +32,7 @@ public class ServicesUTECFeed {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicesUTEC_id")
-    private UTECServices servicesUTEC;
+    private UtecServices servicesUTEC;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentBox> comments = new ArrayList<>();
