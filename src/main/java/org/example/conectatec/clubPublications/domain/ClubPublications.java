@@ -32,6 +32,4 @@ public class ClubPublications {
     @OneToMany(mappedBy = "clubPublication", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<CommentBox> comments;
 
-
-
 }
