@@ -21,6 +21,8 @@ public class Club extends User {
     private Long id;
 
 
+
+
     @Column(unique = true)
     private String carrera;
 

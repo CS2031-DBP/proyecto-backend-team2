@@ -1,0 +1,117 @@
+package org.example.conectatec.auth.domain;
+
+import org.example.conectatec.auth.dto.JwtAuthResponse;
+import org.example.conectatec.auth.dto.LoginReq;
+import org.example.conectatec.auth.dto.RegisterReq;
+import org.example.conectatec.auth.exceptions.UserAlreadyExistException;
+import org.example.conectatec.career.infrastructure.CareerRepository;
+import org.example.conectatec.club.domain.Club;
+import org.example.conectatec.club.infrastructure.ClubRepository;
+import org.example.conectatec.config.JwtService;
+import org.example.conectatec.student.domain.Student;
+import org.example.conectatec.student.infrastructure.StudentRepository;
+import org.example.conectatec.user.domain.Role;
+import org.example.conectatec.user.domain.User;
+import org.example.conectatec.user.infrastructure.UserBaseRepository;
+import org.example.conectatec.utecServices.domain.UtecServices;
+import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class AuthService {
+
+    private final UserBaseRepository<User> userRepository;
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private ClubRepository clubRepository;
+
+    @Autowired
+    private UtecServicesRepository utecServicesRepository;
+
+    @Autowired
+    private CareerRepository careerRepository;
+
+
+
+
+
+    @Autowired
+    public AuthService(UserBaseRepository<User> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
+    }
+
+    public JwtAuthResponse login(LoginReq req) {
+        Optional<User> user = userRepository.findByEmail(req.getEmail());
+
+        if (user.isEmpty()) throw new UsernameNotFoundException("Email is not registered");
+
+        if (!passwordEncoder.matches(req.getPassword(), user.get().getPassword()))
+            throw new IllegalArgumentException("Password is incorrect");
+
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwtService.generateToken(user.get()));
+        return response;
+    }
+
+    public JwtAuthResponse register(RegisterReq req) {
+        Optional<User> user = userRepository.findByEmail(req.getEmail());
+        if (user.isPresent()) throw new UserAlreadyExistException("Email is already registered");
+
+        if (req.getRole().equalsIgnoreCase("STUDENT")) {
+            Student student = new Student();
+            student.setRole(Role.STUDENT);
+            student.setName(req.getName());
+            student.setEmail(req.getEmail());
+            student.setPassword(passwordEncoder.encode(req.getPassword()));
+            student.setCareer(careerRepository.findById(req.getCareerId()).orElseThrow(() -> new IllegalArgumentException("Career not found")));
+
+            studentRepository.save(student);
+
+            JwtAuthResponse response = new JwtAuthResponse();
+            response.setToken(jwtService.generateToken(student));
+            return response;
+        } else if (req.getRole().equalsIgnoreCase("CLUB")) {
+            Club club = new Club();
+            club.setRole(Role.CLUB);
+            club.setName(req.getName());
+            club.setEmail(req.getEmail());
+            club.setPassword(passwordEncoder.encode(req.getPassword()));
+            club.setCareer(careerRepository.findById(req.getCareerId()).orElseThrow(() -> new IllegalArgumentException("Career not found")));
+
+            clubRepository.save(club);
+
+            JwtAuthResponse response = new JwtAuthResponse();
+            response.setToken(jwtService.generateToken(club));
+            return response;
+        } else if (req.getRole().equalsIgnoreCase("UTEC")) {
+            UtecServices utecServices = new UtecServices();
+            utecServices.setRole(Role.UTEC);
+            utecServices.setName(req.getName());
+            utecServices.setEmail(req.getEmail());
+            utecServices.setPassword(passwordEncoder.encode(req.getPassword()));
+
+            utecServicesRepository.save(utecServices);
+
+            JwtAuthResponse response = new JwtAuthResponse();
+            response.setToken(jwtService.generateToken(utecServices));
+            return response;
+        } else {
+            throw new IllegalArgumentException("Invalid role");
+        }
+    }
+}
