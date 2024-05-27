@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UtecServicesFeedRepository extends JpaRepository<UtecServicesFeed, Long> {
     List<UtecServicesFeed> findByServicesUTEC(UtecServices sutec);
+
+    List<UtecServicesFeed> findByHashtag(String hashtag);
 }

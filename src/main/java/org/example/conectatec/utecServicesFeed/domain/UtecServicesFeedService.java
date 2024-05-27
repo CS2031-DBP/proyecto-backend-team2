@@ -31,6 +31,11 @@ public class UtecServicesFeedService {
     }
 
     @Transactional
+    public List<UtecServicesFeed> findUtecServicesPublicationsByHashtag(String hashtag) {
+        return sutecfeedrepository.findByHashtag(hashtag);
+    }
+
+    @Transactional
     public void deleteUtecServicesPublication(Long id) {
         sutecfeedrepository.deleteById(id);
     }
