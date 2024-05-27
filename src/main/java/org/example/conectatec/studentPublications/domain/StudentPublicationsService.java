@@ -1,6 +1,7 @@
 package org.example.conectatec.studentPublications.domain;
 
 import jakarta.transaction.Transactional;
+import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.studentPublications.infrastructure.StudentPublicationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class StudentPublicationsService {
     }
 
     @Transactional
-    public Optional<StudentPublications> findStudentPublicationById(Long id) {
-        return studentPublicationsRepository.findById(id);
+    public StudentPublications findStudentPublicationById(Long id) {
+        return studentPublicationsRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Student publication with id " + id + " not found"));
     }
 
     @Transactional

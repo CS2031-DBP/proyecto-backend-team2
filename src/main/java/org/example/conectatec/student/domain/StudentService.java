@@ -4,6 +4,7 @@ package org.example.conectatec.student.domain;
 import jakarta.transaction.Transactional;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.career.infrastructure.CareerRepository;
+import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.student.infrastructure.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,8 @@ import java.util.Optional;
 @Service
 public class StudentService {
 
-
     @Autowired
     private StudentRepository studentRepository;
-
 
     @Autowired
     private CareerRepository careerRepository;
@@ -29,8 +28,8 @@ public class StudentService {
     }
 
     @Transactional
-    public Optional<Student> findStudentById(Long id) {
-        return studentRepository.findById(id);
+    public Student findStudentById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
     }
 
     @Transactional

@@ -3,6 +3,8 @@ package org.example.conectatec.student.application;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.domain.StudentService;
+import org.example.conectatec.student.dto.StudentDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,14 @@ public class StudentController {
 
     @Autowired
     StudentService studentService;
-
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
-        Optional<Student> student = studentService.findStudentById(id);
-        return student.map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<StudentDto> getStudentById(@PathVariable Long id) {
+        Student student = studentService.findStudentById(id);
+        StudentDto studentDto = modelMapper.map(student, StudentDto.class);
+        return new ResponseEntity<>(studentDto, HttpStatus.OK);
     }
 
     @GetMapping
@@ -34,9 +37,10 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+    public ResponseEntity<StudentDto> createStudent(@RequestBody Student student) {
         Student newStudent = studentService.saveStudent(student);
-        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
+        StudentDto studentDto = modelMapper.map(newStudent, StudentDto.class);
+        return new ResponseEntity<>(studentDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -44,7 +48,6 @@ public class StudentController {
         studentService.deleteStudent_porId(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
     @GetMapping("/career")
     public ResponseEntity<List<Student>> getStudentsByCareer(@RequestParam Long careerId) {
