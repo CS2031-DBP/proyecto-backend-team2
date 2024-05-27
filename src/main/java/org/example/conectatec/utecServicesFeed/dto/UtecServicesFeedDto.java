@@ -7,6 +7,7 @@ import lombok.Data;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
 import org.example.conectatec.utecServices.dto.UtecServicesDto;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ public class UtecServicesFeedDto {
     private String hashtag;
 
     @NotNull
-    private String media;
+    private Media media;
 
     @NotNull
     @Size(max = 500)

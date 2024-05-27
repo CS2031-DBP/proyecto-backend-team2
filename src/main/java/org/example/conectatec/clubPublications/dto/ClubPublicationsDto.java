@@ -7,6 +7,7 @@ import lombok.Data;
 import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @Data
@@ -19,7 +20,7 @@ public class ClubPublicationsDto {
     private String caption;
 
     @NotNull
-    private String media;
+    private Media media;
 
     @NotNull
     @Valid
