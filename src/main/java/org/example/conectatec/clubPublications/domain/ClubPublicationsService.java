@@ -12,8 +12,8 @@ public class ClubPublicationsService {
     @Autowired
     private ClubPublicationsRepository clubPublicationsRepository;
 
-    public ClubPublications findClubPublicationsById(Long id) {
-        return clubPublicationsRepository.findAllByClubPublicationsId(id);
+    public ClubPublications findClubPublicationById(Long id) {
+        return clubPublicationsRepository.findPostById(id);
     }
 
     public List<ClubPublications> findAllClubPublications() {

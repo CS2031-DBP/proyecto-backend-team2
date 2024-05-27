@@ -3,7 +3,6 @@ package org.example.conectatec.clubPublications.application;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.clubPublications.domain.ClubPublications;
 import org.example.conectatec.clubPublications.domain.ClubPublicationsService;
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class ClubPublicationsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClubPublications> getClubPublication(@PathVariable Long id) {
-        ClubPublications publication = clubPublicationsService.findClubPublicationsById(id);
+        ClubPublications publication = clubPublicationsService.findClubPublicationById(id);
         return ResponseEntity.ok(publication);
     }
 
@@ -30,7 +29,7 @@ public class ClubPublicationsController {
     }
 
     @GetMapping("/career")
-    public ResponseEntity<ClubPublications> getClubPublicationbyCareerId(@RequestParam Career career) {
+    public ResponseEntity<ClubPublications> getClubPublicationByCareerId(@RequestParam Career career) {
         ClubPublications publicationByCareer = clubPublicationsService.findClubPublicationByCareer(career);
         return ResponseEntity.ok(publicationByCareer);
     }
