@@ -40,4 +40,7 @@ public class CommentBox {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UtecServiceFeed_id")
     private UtecServicesFeed utecPublication;
+
+
+
 }
