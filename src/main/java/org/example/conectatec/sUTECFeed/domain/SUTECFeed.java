@@ -2,12 +2,12 @@ package org.example.conectatec.sUTECFeed.domain;
 
 import jakarta.persistence.*;
 import org.example.conectatec.commentBox.domain.CommentBox;
-import org.example.conectatec.sUTEC.domain.ServicesUTEC;
+import org.example.conectatec.sUTEC.domain.SUTEC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicesUTECFeed {
+public class SUTECFeed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +23,7 @@ public class ServicesUTECFeed {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicesUTEC_id")
-    private ServicesUTEC servicesUTEC;
+    private SUTEC servicesUTEC;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentBox> comments = new ArrayList<>();
