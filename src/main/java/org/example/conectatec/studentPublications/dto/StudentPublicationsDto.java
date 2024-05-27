@@ -28,5 +28,5 @@ public class StudentPublicationsDto {
 
     @NotNull
     @Valid
-    private StudentDto alumno;
+    private StudentDto student;
 }

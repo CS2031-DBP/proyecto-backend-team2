@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
+import org.example.conectatec.utecServices.dto.UtecServicesDto;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public class UtecServicesFeedDto {
     @NotNull
     @Valid
     private List<CommentBoxDto> commentBoxUTEC;
+    @NotNull
+    @Valid
+    private UtecServicesDto utecservices;
 }

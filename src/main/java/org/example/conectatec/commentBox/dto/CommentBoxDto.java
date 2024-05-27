@@ -4,23 +4,34 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.conectatec.student.dto.StudentDto;
+import org.example.conectatec.studentPublications.dto.StudentPublicationsDto;
+import org.example.conectatec.utecServicesFeed.dto.UtecServicesFeedDto;
 
 import java.util.List;
 
 @Data
 public class CommentBoxDto {
     @NotNull
-    @Size(max = 100)
-    private String hashtag;
-
-    @NotNull
-    private String media;
+    private Long id;
 
     @NotNull
     @Size(max = 500)
-    private String answer;
+    private String content;
 
     @NotNull
     @Valid
-    private List<CommentBoxDto> commentBoxUTEC;
+    private StudentPublicationsDto publication;
+
+    @NotNull
+    @Valid
+    private StudentDto student;
+
+    @NotNull
+    @Valid
+    private ClubPublicationsDto clubPublication;
+
+    @NotNull
+    @Valid
+    private UtecServicesFeedDto utecPublication;
 }
