@@ -20,7 +20,7 @@ import java.util.List;
 @Setter
 public class UtecServices extends User {
 
-    @OneToMany(mappedBy = "ServicesUTEC", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "servicesUTEC", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UtecServicesFeed> publications = new ArrayList<>();
 
 }

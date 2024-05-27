@@ -18,7 +18,6 @@ import java.util.List;
 @Setter
 public class StudentPublications {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,8 +27,6 @@ public class StudentPublications {
 
     @Column(nullable = false)
     private String media;
-
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
