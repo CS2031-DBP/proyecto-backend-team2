@@ -67,6 +67,7 @@ public class UtecServicesService {
         }
     }
 
+
     @Transactional
     public List<UtecServicesFeed> findPublicationsByHashtag(String hashtag) {
         return utecServicesFeedRepository.findByHashtag(hashtag);
