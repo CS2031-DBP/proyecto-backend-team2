@@ -20,9 +20,9 @@ public class AuthorizationUtils {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
         String role = userDetails.getAuthorities().toArray()[0].toString();
-        User passenger= userService.findByEmail(username, role);
+        User user_app= userService.findByEmail(username, role);
 
-        return passenger.getId().equals(id) || passenger.getRole().equals(Role.ADMIN);
+        return user_app.getId().equals(id) || user_app.getRole().equals(Role.ADMIN);
     }
 
     public String getCurrentUserEmail() {

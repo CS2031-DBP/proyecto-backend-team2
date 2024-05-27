@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.commentBox.domain.CommentBox;
+import org.example.conectatec.student.domain.Student;
 
 import java.util.List;
 
@@ -24,12 +26,23 @@ public class ClubPublications {
     private String caption;
 
     // Ajustamos el campo media
-    private String media; // Assuming media is stored as a URL or simple string path
+    private String media; // Por el momento esto.
 
     @ManyToOne
     private Career career;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    private Club club;
+
+
     @OneToMany(mappedBy = "clubPublication", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CommentBox> comments;
+
+
+
+
+
 
 }
