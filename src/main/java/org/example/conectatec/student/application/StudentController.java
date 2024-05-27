@@ -16,7 +16,6 @@ import java.util.Optional;
 @RequestMapping("/student")
 public class StudentController {
 
-
     @Autowired
     StudentService studentService;
 
@@ -34,6 +33,12 @@ public class StudentController {
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        Student newStudent = studentService.saveStudent(student);
+        return new ResponseEntity<>(newStudent, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent_porId(@PathVariable Long id) {
         studentService.deleteStudent_porId(id);
@@ -49,7 +54,6 @@ public class StudentController {
         List<Student> students = studentService.findStudentsByCareer(career);
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
-
 
     @GetMapping("/by-career")
     public ResponseEntity<List<Student>> getStudentsByCareerName(@RequestParam String careerName) {
