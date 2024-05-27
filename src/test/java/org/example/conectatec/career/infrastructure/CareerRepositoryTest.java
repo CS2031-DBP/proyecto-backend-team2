@@ -59,5 +59,6 @@ public class CareerRepositoryTest {
         careerRepository.deleteById(career.getId());
         Optional<Career> deletedCareer = careerRepository.findById(career.getId());
         assertFalse(deletedCareer.isPresent());
+
     }
 }
