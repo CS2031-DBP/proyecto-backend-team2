@@ -7,7 +7,6 @@ import lombok.Data;
 import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @Data
@@ -20,7 +19,7 @@ public class ClubPublicationsDto {
     private String caption;
 
     @NotNull
-    private Media media;
+    private String media; // Assuming media is stored as a URL or simple string path
 
     @NotNull
     @Valid

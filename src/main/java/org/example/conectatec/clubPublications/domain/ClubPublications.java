@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.commentBox.domain.CommentBox;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @Entity
@@ -19,17 +18,18 @@ import java.util.List;
 public class ClubPublications {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String caption;
 
-    private Media media;
+    // Ajustamos el campo media
+    private String media; // Assuming media is stored as a URL or simple string path
 
     @ManyToOne
     private Career career;
 
     @OneToMany(mappedBy = "clubPublication", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<CommentBox> comments;
+    private List<CommentBox> comments;
 
 }

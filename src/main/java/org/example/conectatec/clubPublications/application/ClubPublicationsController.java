@@ -3,7 +3,6 @@ package org.example.conectatec.clubPublications.application;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.clubPublications.domain.ClubPublications;
 import org.example.conectatec.clubPublications.domain.ClubPublicationsService;
-import org.hibernate.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +24,11 @@ public class ClubPublicationsController {
 
     @GetMapping
     public ResponseEntity<List<ClubPublications>> getClubPublications() {
-        clubPublicationsService.findAllClubPublications();
         return ResponseEntity.ok(clubPublicationsService.findAllClubPublications());
     }
 
     @GetMapping("/career")
-    public ResponseEntity<ClubPublications> getClubPublicationbyCareerId(@RequestParam Career career) {
+    public ResponseEntity<ClubPublications> getClubPublicationByCareer(@RequestParam Career career) {
         ClubPublications publicationByCareer = clubPublicationsService.findClubPublicationByCareer(career);
         return ResponseEntity.ok(publicationByCareer);
     }
@@ -41,8 +39,8 @@ public class ClubPublicationsController {
         return ResponseEntity.ok(publication);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteClubPublications(@RequestBody Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClubPublications(@PathVariable Long id) {
         clubPublicationsService.deleteClubPublicationById(id);
         return ResponseEntity.noContent().build();
     }

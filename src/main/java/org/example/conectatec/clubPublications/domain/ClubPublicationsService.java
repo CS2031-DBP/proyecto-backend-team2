@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClubPublicationsService {
+
     @Autowired
     private ClubPublicationsRepository clubPublicationsRepository;
 
     public ClubPublications findClubPublicationsById(Long id) {
-        return clubPublicationsRepository.findAllByClubPublicationsId(id);
+        Optional<ClubPublications> clubPublications = clubPublicationsRepository.findById(id);
+        return clubPublications.orElse(null);
     }
 
     public List<ClubPublications> findAllClubPublications() {
@@ -31,5 +34,4 @@ public class ClubPublicationsService {
     public void deleteClubPublicationById(Long id) {
         clubPublicationsRepository.deleteById(id);
     }
-
 }

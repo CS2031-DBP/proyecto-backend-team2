@@ -5,6 +5,5 @@ import org.example.conectatec.clubPublications.domain.ClubPublications;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClubPublicationsRepository extends JpaRepository<ClubPublications, Long> {
-    ClubPublications findAllByClubPublicationsId(Long clubPublicationsId);
     ClubPublications findByCareer(Career career);
 }

@@ -6,14 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@Import(CareerRepository.class)
+@ExtendWith(SpringExtension.class)
 public class CareerRepositoryTest {
 
     @Autowired
@@ -35,18 +36,16 @@ public class CareerRepositoryTest {
 
     @Test
     public void whenFindById_thenCorrectCareer() {
-        Career savedCareer = careerRepository.save(career);
-        Optional<Career> foundCareer = careerRepository.findById(savedCareer.getId());
+        Optional<Career> foundCareer = careerRepository.findById(career.getId());
         assertTrue(foundCareer.isPresent());
         assertEquals("Ingeniería Informática", foundCareer.get().getName());
     }
 
     @Test
     public void whenFindByName_thenCorrectCareer() {
-        Career savedCareer = careerRepository.save(career);
         Optional<Career> foundCareer = careerRepository.findByName("Ingeniería Informática");
         assertTrue(foundCareer.isPresent());
-        assertEquals(savedCareer.getId(), foundCareer.get().getId());
+        assertEquals(career.getId(), foundCareer.get().getId());
     }
 
     @Test
@@ -57,9 +56,8 @@ public class CareerRepositoryTest {
 
     @Test
     public void whenDeleteById_thenCareerNotPresent() {
-        Career savedCareer = careerRepository.save(career);
-        careerRepository.deleteById(savedCareer.getId());
-        Optional<Career> deletedCareer = careerRepository.findById(savedCareer.getId());
+        careerRepository.deleteById(career.getId());
+        Optional<Career> deletedCareer = careerRepository.findById(career.getId());
         assertFalse(deletedCareer.isPresent());
     }
 }
