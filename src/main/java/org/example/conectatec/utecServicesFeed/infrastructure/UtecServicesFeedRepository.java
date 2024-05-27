@@ -10,4 +10,5 @@ public interface UtecServicesFeedRepository extends JpaRepository<UtecServicesFe
     List<UtecServicesFeed> findByServicesUTEC(UtecServices sutec);
 
     List<UtecServicesFeed> findByHashtag(String hashtag);
+
 }
