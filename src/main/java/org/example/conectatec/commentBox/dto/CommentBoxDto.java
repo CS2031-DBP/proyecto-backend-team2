@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.conectatec.clubPublications.dto.ClubPublicationsDto;
 import org.example.conectatec.student.dto.StudentDto;
 import org.example.conectatec.studentPublications.dto.StudentPublicationsDto;
 import org.example.conectatec.utecServicesFeed.dto.UtecServicesFeedDto;
