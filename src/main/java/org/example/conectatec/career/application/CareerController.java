@@ -2,7 +2,10 @@ package org.example.conectatec.career.application;
 
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.career.domain.CareerService;
+import org.example.conectatec.career.dto.CareerDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +17,13 @@ public class CareerController {
 
     @Autowired
     private CareerService careerService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Career> getCareer(@RequestBody Long id) {
-        Career career = careerService.getCareerById(id);
-        return ResponseEntity.ok(career);
+    public ResponseEntity<CareerDto> getCareer(@PathVariable Long id) {
+        CareerDto careerDto = new CareerDto();
+        return ResponseEntity.ok(careerDto);
     }
 
     @GetMapping
@@ -28,9 +33,10 @@ public class CareerController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Career> createCareer(@RequestBody Career career) {
+    public ResponseEntity<CareerDto> createCareer(@RequestBody Career career) {
         Career careerCreated = careerService.createCareer(career);
-        return ResponseEntity.ok(careerCreated);
+        CareerDto careerDto = modelMapper.map(careerCreated, CareerDto.class);
+        return new ResponseEntity<>(careerDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping

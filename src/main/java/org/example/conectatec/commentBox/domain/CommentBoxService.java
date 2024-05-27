@@ -1,6 +1,7 @@
 package org.example.conectatec.commentBox.domain;
 
 import jakarta.transaction.Transactional;
+import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.studentPublications.domain.StudentPublications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ public class CommentBoxService {
     }
 
     @Transactional
-    public Optional<CommentBox> findCommentBoxById(Long id) {
-        return commentBoxRepository.findById(id);
+    public CommentBox findCommentBoxById(Long id) {
+        return commentBoxRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Comment not found"));
     }
 
     @Transactional

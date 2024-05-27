@@ -3,7 +3,9 @@ package org.example.conectatec.commentBox.application;
 
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.commentBox.domain.CommentBoxService;
+import org.example.conectatec.commentBox.dto.CommentBoxDto;
 import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +20,21 @@ public class CommentBoxController {
 
     @Autowired
     private CommentBoxService commentBoxService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
-    public ResponseEntity<CommentBox> createComment(@RequestBody CommentBox commentBox) {
+    public ResponseEntity<CommentBoxDto> createComment(@RequestBody CommentBox commentBox) {
         CommentBox savedComment = commentBoxService.saveCommentBox(commentBox);
-        return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
+        CommentBoxDto commentBoxDto = modelMapper.map(savedComment, CommentBoxDto.class);
+        return new ResponseEntity<>(commentBoxDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentBox> getCommentById(@PathVariable Long id) {
-        Optional<CommentBox> commentBox = commentBoxService.findCommentBoxById(id);
-        return commentBox.map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<CommentBoxDto> getCommentById(@PathVariable Long id) {
+        CommentBox commentBox = commentBoxService.findCommentBoxById(id);
+        CommentBoxDto commentBoxDto = modelMapper.map(commentBox, CommentBoxDto.class);
+        return new ResponseEntity<>(commentBoxDto, HttpStatus.OK);
     }
 
     @GetMapping("/publication/{publicationId}")
