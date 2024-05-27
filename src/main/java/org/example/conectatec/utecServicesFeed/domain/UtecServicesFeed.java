@@ -34,6 +34,6 @@ public class UtecServicesFeed {
     @JoinColumn(name = "servicesUTEC_id")
     private UtecServices servicesUTEC;
 
-    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "utecPublication", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentBox> comments = new ArrayList<>();
 }

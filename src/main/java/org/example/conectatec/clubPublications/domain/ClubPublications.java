@@ -29,6 +29,6 @@ public class ClubPublications {
     @ManyToOne
     private Career career;
 
-    @OneToMany(mappedBy = "Posts", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clubPublication", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<CommentBox> comments;
 }
