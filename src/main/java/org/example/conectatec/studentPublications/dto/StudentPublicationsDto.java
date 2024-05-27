@@ -12,6 +12,9 @@ import java.util.List;
 @Data
 public class StudentPublicationsDto {
     @NotNull
+    private Long id;
+
+    @NotNull
     @Size(max = 100)
     private String hashtag;
 

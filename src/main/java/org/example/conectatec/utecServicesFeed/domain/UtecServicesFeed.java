@@ -30,6 +30,7 @@ public class UtecServicesFeed {
     @Column(nullable = false)
     private String answer;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicesUTEC_id")
     private UtecServices servicesUTEC;
