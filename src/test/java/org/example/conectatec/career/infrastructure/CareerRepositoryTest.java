@@ -1,21 +1,19 @@
 package org.example.conectatec.career.infrastructure;
 
+import org.example.conectatec.TestConectatecApplication;
 import org.example.conectatec.career.domain.Career;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
-public class CareerRepositoryTest {
+public class CareerRepositoryTest extends TestConectatecApplication {
 
     @Autowired
     private CareerRepository careerRepository;
@@ -35,30 +33,51 @@ public class CareerRepositoryTest {
     }
 
     @Test
-    public void whenFindById_thenCorrectCareer() {
-        Optional<Career> foundCareer = careerRepository.findById(career.getId());
-        assertTrue(foundCareer.isPresent());
-        assertEquals("Ingeniería Informática", foundCareer.get().getName());
+    public void cuandoBuscarPorId_entoncesRetornaCarreraCorrecta() {
+        Optional<Career> carreraEncontrada = careerRepository.findById(career.getId());
+        assertTrue(carreraEncontrada.isPresent());
+        assertEquals("Ingeniería Informática", carreraEncontrada.get().getName());
     }
 
     @Test
-    public void whenFindByName_thenCorrectCareer() {
-        Optional<Career> foundCareer = careerRepository.findByName("Ingeniería Informática");
-        assertTrue(foundCareer.isPresent());
-        assertEquals(career.getId(), foundCareer.get().getId());
+    public void cuandoBuscarPorNombre_entoncesRetornaCarreraCorrecta() {
+        Optional<Career> carreraEncontrada = careerRepository.findByName("Ingeniería Informática");
+        assertTrue(carreraEncontrada.isPresent());
+        assertEquals(career.getId(), carreraEncontrada.get().getId());
     }
 
     @Test
-    public void whenInvalidName_thenCareerNotFound() {
-        Optional<Career> foundCareer = careerRepository.findByName("No Existe");
-        assertFalse(foundCareer.isPresent());
+    public void cuandoBuscarPorNombreInvalido_entoncesCarreraNoEncontrada() {
+        Optional<Career> carreraEncontrada = careerRepository.findByName("No Existe");
+        assertFalse(carreraEncontrada.isPresent());
     }
 
     @Test
-    public void whenDeleteById_thenCareerNotPresent() {
+    public void cuandoEliminarPorId_entoncesCarreraNoPresente() {
         careerRepository.deleteById(career.getId());
-        Optional<Career> deletedCareer = careerRepository.findById(career.getId());
-        assertFalse(deletedCareer.isPresent());
+        Optional<Career> carreraEliminada = careerRepository.findById(career.getId());
+        assertFalse(carreraEliminada.isPresent());
+    }
 
+    @Test
+    public void cuandoGuardar_entoncesRetornaCarreraCorrecta() {
+        Career nuevaCarrera = new Career();
+        nuevaCarrera.setFacultad("Facultad de Ingeniería");
+        nuevaCarrera.setName("Ingeniería Civil");
+        Career carreraGuardada = careerRepository.save(nuevaCarrera);
+        assertNotNull(carreraGuardada.getId());
+        assertEquals("Ingeniería Civil", carreraGuardada.getName());
+    }
+
+    @Test
+    public void cuandoGuardarYEliminar_entoncesCarreraNoPresente() {
+        Career nuevaCarrera = new Career();
+        nuevaCarrera.setFacultad("Facultad de Ingeniería");
+        nuevaCarrera.setName("Ingeniería Civil");
+        Career carreraGuardada = careerRepository.save(nuevaCarrera);
+        assertNotNull(carreraGuardada.getId());
+        careerRepository.deleteById(carreraGuardada.getId());
+        Optional<Career> carreraEliminada = careerRepository.findById(carreraGuardada.getId());
+        assertFalse(carreraEliminada.isPresent());
     }
 }

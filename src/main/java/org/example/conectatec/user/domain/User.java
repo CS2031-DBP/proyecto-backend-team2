@@ -14,6 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+
+@Table(name = "app_user")
+
 public class User {
 
     @Id

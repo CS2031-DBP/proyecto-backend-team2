@@ -25,7 +25,7 @@ public class StudentPublications {
     @Column(nullable = false)
     private String hashtag;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String media;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,5 +34,7 @@ public class StudentPublications {
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentBox> comments = new ArrayList<>();
+
+
 }
 
