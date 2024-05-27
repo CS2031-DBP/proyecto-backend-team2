@@ -1,10 +1,8 @@
 package org.example.conectatec.sUTECFeed.domain;
 
 import jakarta.transaction.Transactional;
-import org.example.conectatec.sUTEC.infrastructure.SUTECRepository;
-
-import org.example.conectatec.student.domain.Student;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.sUTEC.domain.SUTEC;
+import org.example.conectatec.sUTECFeed.infrastructure.SUTECFeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,31 +13,31 @@ import java.util.Optional;
 public class SUTECFeedService {
 
     @Autowired
-    private SUTECRepository repository;
+    private SUTECFeedRepository sutecfeedrepository;
 
     @Transactional
-    public SUTECFeed saveServicesUTECPublications(SUTECFeed servicesUTECPublications) {
-        return servicesutecpublicationsrepository.save(servicesUTECPublications);
+    public SUTECFeed saveUtecServicesPublications(SUTECFeed servicesUTECPublications) {
+        return sutecfeedrepository.save(servicesUTECPublications);
     }
 
     @Transactional
-    public Optional<SUTECFeed> findservicesutecpublicationsrepositoryById(Long id) {
-        return servicesutecpublicationsrepository.findById(id);
+    public Optional<SUTECFeed> findUtecServicesPublicationsById(Long id) {
+        return sutecfeedrepository.findById(id);
     }
 
     @Transactional
-    public List<StudentPublications> findPublicationsByStudent(Student student) {
-        return studentPublicationsRepository.findByStudent(student);
+    public List<SUTECFeed> findPublicationsByUtecServices(SUTEC sutec) {
+        return sutecfeedrepository.findByServicesUTEC(sutec);
     }
 
     @Transactional
-    public void deleteStudentPublication(Long id) {
-        studentPublicationsRepository.deleteById(id);
+    public void deleteUtecServicesPublication(Long id) {
+        sutecfeedrepository.deleteById(id);
     }
 
     @Transactional
-    public List<StudentPublications> findAllPublications() {
-        return studentPublicationsRepository.findAll();
+    public List<SUTECFeed> findAllPublications() {
+        return sutecfeedrepository.findAll();
     }
 
 }
