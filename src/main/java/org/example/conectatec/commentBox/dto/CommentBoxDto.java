@@ -1,16 +1,14 @@
-package org.example.conectatec.studentPublications.dto;
+package org.example.conectatec.commentBox.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.example.conectatec.commentBox.dto.CommentBoxDto;
-import org.example.conectatec.student.dto.StudentDto;
 
 import java.util.List;
 
 @Data
-public class StudentPublicationsDto {
+public class CommentBoxDto {
     @NotNull
     @Size(max = 100)
     private String hashtag;
@@ -24,9 +22,5 @@ public class StudentPublicationsDto {
 
     @NotNull
     @Valid
-    private List<CommentBoxDto> commentBoxUser;
-
-    @NotNull
-    @Valid
-    private StudentDto alumno;
+    private List<CommentBoxDto> commentBoxUTEC;
 }
