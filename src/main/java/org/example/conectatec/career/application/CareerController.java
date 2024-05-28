@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,25 +21,26 @@ public class CareerController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @PreAuthorize("hasRole('STUDENT') or hasRole('CLUB')")
     @GetMapping("/{id}")
     public ResponseEntity<CareerDto> getCareer(@PathVariable Long id) {
         CareerDto careerDto = new CareerDto();
         return ResponseEntity.ok(careerDto);
     }
-
+    @PreAuthorize("hasRole('CLUB')")
     @GetMapping
     public ResponseEntity<List<Career>> getClubs() {
         List<Career> careers = careerService.getAllCareers();
         return ResponseEntity.ok(careers);
     }
-
+    @PreAuthorize("hasRole('CLUB')")
     @PostMapping("/{id}")
     public ResponseEntity<CareerDto> createCareer(@RequestBody Career career) {
         Career careerCreated = careerService.createCareer(career);
         CareerDto careerDto = modelMapper.map(careerCreated, CareerDto.class);
         return new ResponseEntity<>(careerDto, HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('STUDENT') or hasRole('CLUB')")
     @DeleteMapping
     public ResponseEntity<Career> deleteCareer(@RequestBody Long id) {
         careerService.deleteCareerById(id);
