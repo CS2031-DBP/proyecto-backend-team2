@@ -2,18 +2,21 @@ package org.example.conectatec.studentFeed.domain;
 
 import jakarta.transaction.Transactional;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
-import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.studentFeed.infrastructure.StudentFeedRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.example.conectatec.auth.utils.AuthorizationUtils;
 
 @Service
 public class StudentFeedService {
 
-    @Autowired
-    StudentFeedRepository studentFeedRepository;
+    private final StudentFeedRepository studentFeedRepository;
+    private final AuthorizationUtils authorizationUtils;
+    public StudentFeedService(StudentFeedRepository studentFeedRepository, AuthorizationUtils authorizationUtils) {
+        this.studentFeedRepository = studentFeedRepository;
+        this.authorizationUtils = authorizationUtils;
+    }
 
     @Transactional
     public StudentFeed saveStudentPublication(StudentFeed studentPublication) {
@@ -21,22 +24,28 @@ public class StudentFeedService {
     }
 
     @Transactional
-    public StudentFeed findStudentPublicationById(Long id) {
-        return studentFeedRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Student publication with id " + id + " not found"));
-    }
-
-    @Transactional
-    public List<StudentFeed> findPublicationsByStudent(Student student) {
-        return studentFeedRepository.findByStudent(student);
-    }
-
-    @Transactional
     public void deleteStudentPublication(Long id) {
+        if (!authorizationUtils.isAdminOrResourceOwner(id)) {
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
         studentFeedRepository.deleteById(id);
     }
 
     @Transactional
     public List<StudentFeed> findAllPublications() {
+        String username = authorizationUtils.getCurrentUserEmail();
+        if(username == null){
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
         return studentFeedRepository.findAll();
     }
+
+    @Transactional
+    public StudentFeed findById(Long id) {
+        if (!authorizationUtils.isAdminOrResourceOwner(id)) {
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
+        return studentFeedRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    }
 }
+

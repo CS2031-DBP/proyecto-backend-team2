@@ -4,11 +4,6 @@ package org.example.conectatec.student.domain;
 import jakarta.transaction.Transactional;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.career.dto.CareerDto;
-import org.example.conectatec.career.infrastructure.CareerRepository;
-import org.example.conectatec.club.domain.Club;
-import org.example.conectatec.club.dto.ClubDto;
-import org.example.conectatec.clubFeed.domain.ClubFeed;
-import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.student.dto.StudentDto;
 import org.example.conectatec.student.infrastructure.StudentRepository;
@@ -17,10 +12,7 @@ import org.example.conectatec.studentFeed.dto.StudentFeedDto;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import org.example.conectatec.auth.utils.AuthorizationUtils;
 @Service
 public class StudentService {
