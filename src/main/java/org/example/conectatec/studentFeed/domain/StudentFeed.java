@@ -26,7 +26,7 @@ public class StudentFeed {
     @Column(nullable = false)
     private String hashtag;
 
-    private Media media;
+    private String media;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

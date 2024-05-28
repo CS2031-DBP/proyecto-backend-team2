@@ -21,7 +21,7 @@ public class StudentFeedDto {
     private String hashtag;
 
     @NotNull
-    private Media media;
+    private String media;
 
     @NotNull
     @Size(max = 500)
