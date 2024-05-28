@@ -1,11 +1,14 @@
 package org.example.conectatec.student.application;
 
 import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.student.EmailService;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.domain.StudentService;
 import org.example.conectatec.student.dto.StudentDto;
+import org.example.conectatec.student.events.HelloEmailEvent;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,12 @@ public class StudentController {
     StudentService studentService;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentDto> getStudentById(@PathVariable Long id) {
@@ -62,6 +71,13 @@ public class StudentController {
     public ResponseEntity<List<Student>> getStudentsByCareerName(@RequestParam String careerName) {
         List<Student> students = studentService.findStudentsByCareerName(careerName);
         return new ResponseEntity<>(students, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/verificacion")
+    public ResponseEntity<String> sendEmail(@RequestParam String email) {
+        applicationEventPublisher.publishEvent(new HelloEmailEvent(email));
+        return ResponseEntity.ok("¡Hola mundo!");
     }
 
 }
