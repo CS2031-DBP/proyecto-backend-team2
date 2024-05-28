@@ -40,7 +40,6 @@ public class UtecServicesFeedRepositoryTest extends TestConectatecApplication {
         utecServicesFeed = new UtecServicesFeed();
         utecServicesFeed.setHashtag("#Biblioteca");
         utecServicesFeed.setMedia("image.png");
-        utecServicesFeed.setAnswer("Disponible");
         utecServicesFeed.setServicesUTEC(utecService);
         entityManager.persist(utecServicesFeed);
 
@@ -73,7 +72,6 @@ public class UtecServicesFeedRepositoryTest extends TestConectatecApplication {
         UtecServicesFeed nuevoFeed = new UtecServicesFeed();
         nuevoFeed.setHashtag("#Laboratorio");
         nuevoFeed.setMedia("lab.png");
-        nuevoFeed.setAnswer("Abierto");
         nuevoFeed.setServicesUTEC(utecService);
 
         UtecServicesFeed feedGuardado = utecServicesFeedRepository.save(nuevoFeed);
