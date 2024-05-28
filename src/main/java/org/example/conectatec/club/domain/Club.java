@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.user.domain.User;
 
 @Entity
@@ -20,13 +21,15 @@ public class Club extends User {
     @GeneratedValue
     private Long id;
 
-
-
-
     @Column(unique = true)
     private String carrera;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "club_feed_id", unique = true, nullable = false)
+    private ClubFeed clubFeed;
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "career_id", nullable = false)
     private Career career;
 
 

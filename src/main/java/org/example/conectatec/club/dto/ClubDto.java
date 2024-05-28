@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.conectatec.career.dto.CareerDto;
+import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 import org.example.conectatec.user.dto.UserDto;
 @Data
 public class ClubDto extends UserDto {
@@ -18,4 +19,7 @@ public class ClubDto extends UserDto {
     @NotNull
     @Valid
     private CareerDto career;
+    @NotNull
+    @Valid
+    private ClubFeedDto clubFeed;
 }
