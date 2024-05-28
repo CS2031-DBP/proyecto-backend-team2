@@ -1,5 +1,6 @@
 package org.example.conectatec.utecServices.application;
 
+import org.example.conectatec.student.dto.StudentDto;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.domain.UtecServicesService;
 import org.example.conectatec.utecServices.dto.UtecServicesDto;
@@ -8,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,25 +23,32 @@ public class UtecServicesController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping("/{id}")
-    public ResponseEntity<UtecServicesDto> getUtecServicesById(@PathVariable Long id) {
-        UtecServices utecService = utecServicesService.findUtecServicesById(id);
-        UtecServicesDto utecServicesDto = modelMapper.map(utecService, UtecServicesDto.class);
+    public ResponseEntity<UtecServicesDto> getUtecServices(@PathVariable Long id) {
+        UtecServicesDto utecServicesDto = utecServicesService.findUtecServicesInfo(id);
         return new ResponseEntity<>(utecServicesDto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
+    @GetMapping("/{id}")
+    public ResponseEntity<UtecServicesDto> getUtecServicesByEmail(@PathVariable String email) {
+        utecServicesService.findUtecServicesByEmail(email);
+        UtecServicesDto utecServicesDto = modelMapper.map(utecServicesService.findUtecServicesByEmail(email), UtecServicesDto.class);
+        return new ResponseEntity<>(utecServicesDto, HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping
     public ResponseEntity<List<UtecServices>> getAllUtecServices() {
         List<UtecServices> sutec = utecServicesService.findAllUtecServices();
         return new ResponseEntity<>(sutec, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('UTEC')")
     @PostMapping
     public ResponseEntity<UtecServices> createUtecServices(@RequestBody UtecServices utecServices) {
         UtecServices newUtecServices = utecServicesService.saveUtecServices(utecServices);
         return new ResponseEntity<>(newUtecServices, HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('UTEC') ")
     @PutMapping("/{id}")
     public ResponseEntity<UtecServices> updateUtecServices(@PathVariable Long id, @RequestBody UtecServices utecServices) {
         UtecServices updatedUtecServices = utecServicesService.updateUtecServices(id, utecServices);
@@ -49,38 +58,11 @@ public class UtecServicesController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    @PreAuthorize("hasRole('UTEC')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUtecServices_porId(@PathVariable Long id) {
         utecServicesService.deleteUtecServices_porId(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}/publications")
-    public ResponseEntity<List<UtecServicesFeed>> getPublicationsByUtecServiceId(@PathVariable Long id) {
-        UtecServices utecServices = utecServicesService.findUtecServicesById(id);
-        if (utecServices != null) {
-            utecServicesService.deleteUtecServices_porId(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping("/{id}/publications")
-    public ResponseEntity<UtecServicesFeed> addPublicationToUtecService(@PathVariable Long id, @RequestBody UtecServicesFeed publication) {
-        UtecServicesFeed newPublication = utecServicesService.addPublicationToUtecService(id, publication);
-        if (newPublication != null) {
-            return new ResponseEntity<>(newPublication, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/publications/search")
-    public ResponseEntity<List<UtecServicesFeed>> getPublicationsByHashtag(@RequestParam String hashtag) {
-        List<UtecServicesFeed> publications = utecServicesService.findPublicationsByHashtag(hashtag);
-        return new ResponseEntity<>(publications, HttpStatus.OK);
-    }
 }

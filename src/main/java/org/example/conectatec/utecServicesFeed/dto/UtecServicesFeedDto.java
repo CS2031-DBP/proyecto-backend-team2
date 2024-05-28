@@ -11,7 +11,9 @@ import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @Data
-public class UtecServicesFeedDto {
+public class UtecServicesFeedDto extends UtecServicesDto {
+    @NotNull
+    private Long id;
     @NotNull
     @Size(max = 100)
     private String hashtag;
@@ -21,12 +23,9 @@ public class UtecServicesFeedDto {
 
     @NotNull
     @Size(max = 500)
-    private String answer;
+    private String caption;
 
     @NotNull
     @Valid
     private List<CommentBoxDto> commentBoxUTEC;
-    @NotNull
-    @Valid
-    private UtecServicesDto utecservices;
 }

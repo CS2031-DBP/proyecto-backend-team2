@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.utecServices.domain.UtecServices;
 
+import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,10 @@ public class UtecServicesFeed {
     private String hashtag;
 
     @Column(nullable = false)
-    private String media;
+    private Media media;
 
     @Column(nullable = true)
-    private String content;
+    private String caption;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicesUTEC_id")

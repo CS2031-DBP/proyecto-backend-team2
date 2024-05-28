@@ -73,11 +73,7 @@ public class StudentService {
         if (!authorizationUtils.isAdminOrResourceOwner(existingStudent.getId())) {
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
         }
-
-
         updateStudentFields(existingStudent, studentDto);
-
-
         return studentRepository.save(existingStudent);
     }
 
@@ -103,7 +99,6 @@ public class StudentService {
         return studentRepository.save(existingStudent);
     }
 
-    // Método para actualizar los campos del estudiante
     private void updateStudentFields(Student student, StudentDto studentDto) {
         if (studentDto.getName() != null) {
             student.setName(studentDto.getName());

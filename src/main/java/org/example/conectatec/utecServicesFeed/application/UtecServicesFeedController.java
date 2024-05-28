@@ -51,7 +51,7 @@ public class UtecServicesFeedController {
         }else {
             updatedUtecServicesFeed.setHashtag(updatedUtecServicesFeed.getHashtag());
             updatedUtecServicesFeed.setMedia(updatedUtecServicesFeed.getMedia());
-            updatedUtecServicesFeed.setContent(updatedUtecServicesFeed.getContent());
+            updatedUtecServicesFeed.setCaption(updatedUtecServicesFeed.getCaption());
             UtecServicesFeed savedUtecServicesFeed = utecServicesFeedService.saveUtecServicesPublications(updatedUtecServicesFeed);
             return new ResponseEntity<>(savedUtecServicesFeed, HttpStatus.OK);
         }
