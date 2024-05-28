@@ -33,14 +33,14 @@ public class CareerController {
         List<Career> careers = careerService.getAllCareers();
         return ResponseEntity.ok(careers);
     }
-    @PreAuthorize("hasRole('CLUB')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}")
     public ResponseEntity<CareerDto> createCareer(@RequestBody Career career) {
         Career careerCreated = careerService.createCareer(career);
         CareerDto careerDto = modelMapper.map(careerCreated, CareerDto.class);
         return new ResponseEntity<>(careerDto, HttpStatus.CREATED);
     }
-    @PreAuthorize("hasRole('STUDENT') or hasRole('CLUB')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping
     public ResponseEntity<Career> deleteCareer(@RequestBody Long id) {
         careerService.deleteCareerById(id);
