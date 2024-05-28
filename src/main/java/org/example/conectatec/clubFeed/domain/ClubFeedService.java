@@ -11,15 +11,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 
 @Service
 public class ClubFeedService {
 
-    @Autowired
-    private ClubFeedRepository clubFeedRepository;
+
+    private final ClubFeedRepository clubFeedRepository;
+    private final AuthorizationUtils authorizationUtils;
 
     @Autowired
-    private AuthorizationUtils authorizationUtils;
+    public ClubFeedService(ClubFeedRepository clubFeedRepository, AuthorizationUtils authorizationUtils) {
+        this.clubFeedRepository = clubFeedRepository;
+        this.authorizationUtils = authorizationUtils;
+    }
 
     public ClubFeed findClubPublicationsById(Long id) {
         Optional<ClubFeed> clubPublications = clubFeedRepository.findById(id);
@@ -35,7 +40,10 @@ public class ClubFeedService {
     }
 
     public ClubFeed createClubPublication(ClubFeed clubPublication) {
-
+        String username = authorizationUtils.getCurrentUserEmail();
+        if(username == null){
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
         Club club = clubPublication.getClub();
         Long id = club.getId();
 
@@ -47,7 +55,9 @@ public class ClubFeedService {
     }
 
     public void deleteClubPublicationById(Long id) {
-
+        if(!authorizationUtils.isAdminOrResourceOwner(id)){
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
         ClubFeed clubPublication = clubFeedRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ClubPublication not found with id " + id));
 
@@ -59,10 +69,46 @@ public class ClubFeedService {
             throw new UnauthorizeOperationException("User has no permission to delete this resource");
         }
 
-        // Eliminar la publicación del club
         clubFeedRepository.deleteById(id);
 
 
         clubFeedRepository.deleteById(id);
+    }
+    public ClubFeed updateClubPublication(Long id, ClubFeedDto clubFeedDto) {
+        if(!authorizationUtils.isAdminOrResourceOwner(id)){
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
+        ClubFeed existingPublication = clubFeedRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Club publication not found with id: " + id));
+
+        Long clubId = existingPublication.getClub().getId();
+        if (!authorizationUtils.isAdminOrResourceOwner(clubId)) {
+            throw new UnauthorizeOperationException("User does not have permission to update this resource");
+        }
+
+        mapDtoToEntity(clubFeedDto, existingPublication);
+
+        return clubFeedRepository.save(existingPublication);
+    }
+
+    public ClubFeed partiallyUpdateClubPublication(Long id, ClubFeedDto clubFeedDto) {
+        if(!authorizationUtils.isAdminOrResourceOwner(id)){
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
+        ClubFeed existingPublication = clubFeedRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Club publication not found with id: " + id));
+
+        Long clubId = existingPublication.getClub().getId();
+        if (!authorizationUtils.isAdminOrResourceOwner(clubId)) {
+            throw new UnauthorizeOperationException("User does not have permission to update this resource");
+        }
+
+        mapDtoToEntity(clubFeedDto, existingPublication);
+
+        return clubFeedRepository.save(existingPublication);
+    }
+    private void mapDtoToEntity(ClubFeedDto clubFeedDto, ClubFeed clubFeed) {
+        clubFeed.setCaption(clubFeedDto.getCaption());
+        clubFeed.setMedia(clubFeedDto.getMedia());
     }
 }
