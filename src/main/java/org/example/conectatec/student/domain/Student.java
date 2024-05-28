@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.user.domain.User;
 
 import java.util.ArrayList;
@@ -24,6 +24,6 @@ public class Student extends User {
     private Career career;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StudentPublications> publications = new ArrayList<>();
+    private List<StudentFeed> publications = new ArrayList<>();
 }
 

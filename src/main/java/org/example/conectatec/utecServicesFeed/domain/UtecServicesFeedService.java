@@ -1,6 +1,7 @@
 package org.example.conectatec.utecServicesFeed.domain;
 
 import jakarta.transaction.Transactional;
+import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServicesFeed.infrastructure.UtecServicesFeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class UtecServicesFeedService {
     }
 
     @Transactional
-    public Optional<UtecServicesFeed> findUtecServicesPublicationsById(Long id) {
-        return sutecfeedrepository.findById(id);
+    public UtecServicesFeed findUtecServicesPublicationsById(Long id) {
+        return sutecfeedrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("UtecServicesFeed not found"));
     }
 
     @Transactional

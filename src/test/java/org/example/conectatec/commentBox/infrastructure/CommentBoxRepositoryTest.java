@@ -2,9 +2,9 @@ package org.example.conectatec.commentBox.infrastructure;
 
 import org.example.conectatec.TestConectatecApplication;
 import org.example.conectatec.commentBox.domain.CommentBox;
-import org.example.conectatec.clubPublications.domain.ClubPublications;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.student.domain.Student;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class CommentBoxRepositoryTest extends TestConectatecApplication {
     private TestEntityManager entityManager;
 
     private CommentBox commentBox;
-    private StudentPublications studentPublication;
-    private ClubPublications clubPublication;
+    private StudentFeed studentPublication;
+    private ClubFeed clubPublication;
 
     @BeforeEach
     public void setUp() {
@@ -40,12 +40,12 @@ public class CommentBoxRepositoryTest extends TestConectatecApplication {
         student.setPassword("password123");  // Asignar password
         entityManager.persist(student);
 
-        studentPublication = new StudentPublications();
+        studentPublication = new StudentFeed();
         studentPublication.setHashtag("Publicación Estudiante");
         studentPublication.setStudent(student);
         entityManager.persist(studentPublication);
 
-        clubPublication = new ClubPublications();
+        clubPublication = new ClubFeed();
         clubPublication.setCaption("Publicación del Club");
         entityManager.persist(clubPublication);
 

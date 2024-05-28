@@ -1,9 +1,8 @@
-package org.example.conectatec.clubPublications.infrastructure;
+package org.example.conectatec.clubFeed.infrastructure;
 
 import org.example.conectatec.TestConectatecApplication;
 import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.clubPublications.domain.ClubPublications;
-import org.example.conectatec.commentBox.domain.CommentBox;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +18,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class ClubPublicationsRepositoryTest extends TestConectatecApplication {
+public class ClubFeedRepositoryTest extends TestConectatecApplication {
 
     @Autowired
-    private ClubPublicationsRepository clubPublicationsRepository;
+    private ClubFeedRepository clubFeedRepository;
 
     @Autowired
     private TestEntityManager entityManager;
 
-    private ClubPublications clubPublication;
+    private ClubFeed clubPublication;
     private Career career;
 
     @BeforeEach
@@ -37,7 +36,7 @@ public class ClubPublicationsRepositoryTest extends TestConectatecApplication {
         career.setName("Ingeniería Informática");
         entityManager.persist(career);
 
-        clubPublication = new ClubPublications();
+        clubPublication = new ClubFeed();
         clubPublication.setCaption("Publicación de Prueba");
         clubPublication.setCareer(career);
         clubPublication.setComments(Collections.emptyList());
@@ -47,52 +46,52 @@ public class ClubPublicationsRepositoryTest extends TestConectatecApplication {
 
     @Test
     public void cuandoBuscarPorId_entoncesRetornaPublicacionCorrecta() {
-        Optional<ClubPublications> publicacionEncontrada = clubPublicationsRepository.findById(clubPublication.getId());
+        Optional<ClubFeed> publicacionEncontrada = clubFeedRepository.findById(clubPublication.getId());
         assertTrue(publicacionEncontrada.isPresent());
         assertEquals("Publicación de Prueba", publicacionEncontrada.get().getCaption());
     }
 
     @Test
     public void cuandoBuscarPorCarrera_entoncesRetornaPublicacionCorrecta() {
-        Optional<ClubPublications> publicacionEncontrada = Optional.ofNullable(clubPublicationsRepository.findByCareer(career));
+        Optional<ClubFeed> publicacionEncontrada = Optional.ofNullable(clubFeedRepository.findByCareer(career));
         assertTrue(publicacionEncontrada.isPresent());
         assertEquals(clubPublication.getId(), publicacionEncontrada.get().getId());
     }
 
     @Test
     public void cuandoBuscarPorNombreInvalido_entoncesPublicacionNoEncontrada() {
-        Optional<ClubPublications> publicacionEncontrada = clubPublicationsRepository.findById(-1L);
+        Optional<ClubFeed> publicacionEncontrada = clubFeedRepository.findById(-1L);
         assertFalse(publicacionEncontrada.isPresent());
     }
 
     @Test
     public void cuandoEliminarPorId_entoncesPublicacionNoPresente() {
-        clubPublicationsRepository.deleteById(clubPublication.getId());
-        Optional<ClubPublications> publicacionEliminada = clubPublicationsRepository.findById(clubPublication.getId());
+        clubFeedRepository.deleteById(clubPublication.getId());
+        Optional<ClubFeed> publicacionEliminada = clubFeedRepository.findById(clubPublication.getId());
         assertFalse(publicacionEliminada.isPresent());
     }
 
     @Test
     public void cuandoGuardar_entoncesRetornaPublicacionCorrecta() {
-        ClubPublications nuevaPublicacion = new ClubPublications();
+        ClubFeed nuevaPublicacion = new ClubFeed();
         nuevaPublicacion.setCaption("Nueva Publicación");
         nuevaPublicacion.setCareer(career);
         nuevaPublicacion.setComments(Collections.emptyList());
-        ClubPublications publicacionGuardada = clubPublicationsRepository.save(nuevaPublicacion);
+        ClubFeed publicacionGuardada = clubFeedRepository.save(nuevaPublicacion);
         assertNotNull(publicacionGuardada.getId());
         assertEquals("Nueva Publicación", publicacionGuardada.getCaption());
     }
 
     @Test
     public void cuandoGuardarYEliminar_entoncesPublicacionNoPresente() {
-        ClubPublications nuevaPublicacion = new ClubPublications();
+        ClubFeed nuevaPublicacion = new ClubFeed();
         nuevaPublicacion.setCaption("Otra Publicación");
         nuevaPublicacion.setCareer(career);
         nuevaPublicacion.setComments(Collections.emptyList());
-        ClubPublications publicacionGuardada = clubPublicationsRepository.save(nuevaPublicacion);
+        ClubFeed publicacionGuardada = clubFeedRepository.save(nuevaPublicacion);
         assertNotNull(publicacionGuardada.getId());
-        clubPublicationsRepository.deleteById(publicacionGuardada.getId());
-        Optional<ClubPublications> publicacionEliminada = clubPublicationsRepository.findById(publicacionGuardada.getId());
+        clubFeedRepository.deleteById(publicacionGuardada.getId());
+        Optional<ClubFeed> publicacionEliminada = clubFeedRepository.findById(publicacionGuardada.getId());
         assertFalse(publicacionEliminada.isPresent());
     }
 }
