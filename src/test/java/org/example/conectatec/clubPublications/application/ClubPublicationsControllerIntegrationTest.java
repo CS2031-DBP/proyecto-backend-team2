@@ -2,8 +2,8 @@ package org.example.conectatec.clubPublications.application;
 
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.club.infrastructure.ClubRepository;
-import org.example.conectatec.clubPublications.domain.ClubPublications;
-import org.example.conectatec.clubPublications.infrastructure.ClubPublicationsRepository;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
+import org.example.conectatec.clubFeed.infrastructure.ClubFeedRepository;
 import org.example.conectatec.user.domain.Role;
 import org.example.conectatec.user.domain.User;
 import org.example.conectatec.user.infrastructure.UserBaseRepository;
@@ -37,7 +37,7 @@ public class ClubPublicationsControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ClubPublicationsRepository clubPublicationsRepository;
+    private ClubFeedRepository clubPublicationsRepository;
 
     @Autowired
     private UserBaseRepository<User> userRepository;
@@ -79,7 +79,7 @@ public class ClubPublicationsControllerIntegrationTest {
         clubRepository.save(club);
 
         // Crear una publicación de prueba
-        ClubPublications clubPublications = new ClubPublications();
+        ClubFeed clubPublications = new ClubFeed();
         clubPublications.setCaption("Test Caption");
         clubPublications.setMedia("Test Media");
         clubPublications.setClub(club);
