@@ -1,5 +1,6 @@
 package org.example.conectatec.student.application;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.student.EmailService;
@@ -23,16 +24,19 @@ import java.util.Optional;
 @RequestMapping("/student")
 public class StudentController {
 
-    @Autowired
-    StudentService studentService;
-    @Autowired
-    private ModelMapper modelMapper;
 
-    @Autowired
-    private EmailService emailService;
+    private final StudentService studentService;
 
+    private final ModelMapper modelMapper;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
     @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    public StudentController(StudentService studentService, ApplicationEventPublisher applicationEventPublisher, ModelMapper modelMapper) {
+        this.studentService = studentService;
+        this.applicationEventPublisher = applicationEventPublisher;
+        this.modelMapper = modelMapper;
+
+    }
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping("/{id}")
@@ -73,6 +77,21 @@ public class StudentController {
         career.setId(careerId);
         List<Student> students = studentService.findStudentsByCareer(career);
         return new ResponseEntity<>(students, HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('STUDENT')")
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDto> updateStudent(@PathVariable Long id, @Valid @RequestBody StudentDto studentDto) {
+        Student updatedStudent = studentService.updateStudent(id, studentDto);
+        StudentDto updatedStudentDto = modelMapper.map(updatedStudent, StudentDto.class);
+        return new ResponseEntity<>(updatedStudentDto, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @PatchMapping("/{id}")
+    public ResponseEntity<StudentDto> partiallyUpdateStudent(@PathVariable Long id, @Valid @RequestBody StudentDto studentDto) {
+        Student updatedStudent = studentService.partiallyUpdateStudent(id, studentDto);
+        StudentDto updatedStudentDto = modelMapper.map(updatedStudent, StudentDto.class);
+        return new ResponseEntity<>(updatedStudentDto, HttpStatus.OK);
     }
 
     @PostMapping("/verificacion")

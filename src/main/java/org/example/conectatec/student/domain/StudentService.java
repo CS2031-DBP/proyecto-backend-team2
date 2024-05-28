@@ -25,10 +25,13 @@ import org.example.conectatec.auth.utils.AuthorizationUtils;
 @Service
 public class StudentService {
 
+    private final StudentRepository studentRepository;
+    private final AuthorizationUtils authorizationUtils;
     @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private AuthorizationUtils authorizationUtils;
+    public StudentService(StudentRepository studentRepository, AuthorizationUtils authorizationUtils) {
+        this.studentRepository = studentRepository;
+        this.authorizationUtils = authorizationUtils;
+    }
 
 
     @Transactional
@@ -71,6 +74,57 @@ public class StudentService {
 
         return studentRepository.findByCareer(career);
     }
+    public Student updateStudent(Long id, StudentDto studentDto) {
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+
+        if (!authorizationUtils.isAdminOrResourceOwner(existingStudent.getId())) {
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
+
+
+        updateStudentFields(existingStudent, studentDto);
+
+
+        return studentRepository.save(existingStudent);
+    }
+
+    public Student partiallyUpdateStudent(Long id, StudentDto studentDto) {
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+
+        if (!authorizationUtils.isAdminOrResourceOwner(existingStudent.getId())) {
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
+        }
+
+        if (studentDto.getName() != null) {
+            existingStudent.setName(studentDto.getName());
+        }
+        if (studentDto.getEmail() != null) {
+            existingStudent.setEmail(studentDto.getEmail());
+        }
+        if (studentDto.getPassword() != null) {
+            existingStudent.setPassword(studentDto.getPassword());
+        }
+
+
+        return studentRepository.save(existingStudent);
+    }
+
+    // Método para actualizar los campos del estudiante
+    private void updateStudentFields(Student student, StudentDto studentDto) {
+        if (studentDto.getName() != null) {
+            student.setName(studentDto.getName());
+        }
+        if (studentDto.getEmail() != null) {
+            student.setEmail(studentDto.getEmail());
+        }
+        if (studentDto.getPassword() != null) {
+            student.setPassword(studentDto.getPassword());
+        }
+
+    }
+
 
     private StudentDto mapToDto(Student student) {
         StudentDto response = new StudentDto();

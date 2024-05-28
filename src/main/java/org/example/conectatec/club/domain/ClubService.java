@@ -65,10 +65,7 @@ public class ClubService {
         club.setName(clubUpdateDto.getName());
         club.setEmail(clubUpdateDto.getEmail());
         club.setPassword(clubUpdateDto.getPassword());
-        Career career = club.getCareer();
-        if (career != null) {
-            club.setCareer(career);
-        }
+
 
         clubRepository.save(club);
         return mapToDto(club);
@@ -81,16 +78,14 @@ public class ClubService {
         }
 
         Club club = clubRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Club not found"));
-        Career career = club.getCareer();
+
         if (clubUpdateDto.getName() != null) {
             club.setName(clubUpdateDto.getName());
         }
         if (clubUpdateDto.getEmail() != null) {
             club.setEmail(clubUpdateDto.getEmail());
         }
-        if (clubUpdateDto.getCareer() != null) {
-            club.setCareer(career);
-        }
+
 
         clubRepository.save(club);
         return mapToDto(club);
