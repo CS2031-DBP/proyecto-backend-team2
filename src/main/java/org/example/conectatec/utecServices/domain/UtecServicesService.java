@@ -1,12 +1,12 @@
 package org.example.conectatec.utecServices.domain;
 
 import jakarta.transaction.Transactional;
+import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
 import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 import org.example.conectatec.utecServicesFeed.infrastructure.UtecServicesFeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +25,8 @@ public class UtecServicesService {
     }
 
     @Transactional
-    public Optional<UtecServices> findUtecServicesById(Long id) {
-        return utecServicesRepository.findById(id);
+    public UtecServices findUtecServicesById(Long id) {
+        return utecServicesRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("UTEC account not found"));
     }
 
     @Transactional
@@ -66,7 +66,6 @@ public class UtecServicesService {
             return null;
         }
     }
-
 
     @Transactional
     public List<UtecServicesFeed> findPublicationsByHashtag(String hashtag) {

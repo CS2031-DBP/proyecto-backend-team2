@@ -1,9 +1,9 @@
-package org.example.conectatec.studentPublications.infrastructure;
+package org.example.conectatec.studentFeed.infrastructure;
 
 import org.example.conectatec.TestConectatecApplication;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.student.domain.Student;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class StudentPublicationsRepositoryTest extends TestConectatecApplication  {
+public class StudentFeedRepositoryTest extends TestConectatecApplication  {
 
     @Autowired
-    private StudentPublicationsRepository studentPublicationsRepository;
+    private StudentFeedRepository studentFeedRepository;
 
     @Autowired
     private TestEntityManager entityManager;
 
     private Career career;
     private Student student;
-    private StudentPublications studentPublication;
+    private StudentFeed studentPublication;
 
     @BeforeEach
     public void setUp() {
@@ -44,7 +44,7 @@ public class StudentPublicationsRepositoryTest extends TestConectatecApplication
         student.setCareer(career);
         entityManager.persist(student);
 
-        studentPublication = new StudentPublications();
+        studentPublication = new StudentFeed();
         studentPublication.setHashtag("#IngenieriaInformatica");
         studentPublication.setMedia("media content");
         studentPublication.setStudent(student);
@@ -55,39 +55,39 @@ public class StudentPublicationsRepositoryTest extends TestConectatecApplication
 
     @Test
     public void cuandoBuscarPorId_entoncesRetornaPublicacionCorrecta() {
-        StudentPublications publicacionEncontrada = studentPublicationsRepository.findById(studentPublication.getId()).orElse(null);
+        StudentFeed publicacionEncontrada = studentFeedRepository.findById(studentPublication.getId()).orElse(null);
         assertNotNull(publicacionEncontrada);
         assertEquals("#IngenieriaInformatica", publicacionEncontrada.getHashtag());
     }
 
     @Test
     public void cuandoGuardar_entoncesRetornaPublicacionCorrecta() {
-        StudentPublications nuevaPublicacion = new StudentPublications();
+        StudentFeed nuevaPublicacion = new StudentFeed();
         nuevaPublicacion.setHashtag("#NuevaPublicacion");
         nuevaPublicacion.setMedia("nuevo media content");
         nuevaPublicacion.setStudent(student);
 
-        StudentPublications publicacionGuardada = studentPublicationsRepository.save(nuevaPublicacion);
+        StudentFeed publicacionGuardada = studentFeedRepository.save(nuevaPublicacion);
         assertNotNull(publicacionGuardada.getId());
         assertEquals("#NuevaPublicacion", publicacionGuardada.getHashtag());
     }
 
     @Test
     public void cuandoEliminarPorId_entoncesPublicacionNoPresente() {
-        studentPublicationsRepository.deleteById(studentPublication.getId());
-        StudentPublications publicacionEliminada = studentPublicationsRepository.findById(studentPublication.getId()).orElse(null);
+        studentFeedRepository.deleteById(studentPublication.getId());
+        StudentFeed publicacionEliminada = studentFeedRepository.findById(studentPublication.getId()).orElse(null);
         assertNull(publicacionEliminada);
     }
 
     @Test
     public void cuandoBuscarPorIdInvalido_entoncesPublicacionNoEncontrada() {
-        StudentPublications publicacionEncontrada = studentPublicationsRepository.findById(-1L).orElse(null);
+        StudentFeed publicacionEncontrada = studentFeedRepository.findById(-1L).orElse(null);
         assertNull(publicacionEncontrada);
     }
 
     @Test
     public void cuandoBuscarPorEstudiante_entoncesRetornaPublicacionesCorrectas() {
-        List<StudentPublications> publicaciones = studentPublicationsRepository.findByStudent(student);
+        List<StudentFeed> publicaciones = studentFeedRepository.findByStudent(student);
         assertFalse(publicaciones.isEmpty());
         assertEquals("#IngenieriaInformatica", publicaciones.get(0).getHashtag());
     }

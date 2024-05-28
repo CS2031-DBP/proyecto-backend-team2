@@ -1,9 +1,9 @@
-package org.example.conectatec.clubPublications.domain;
+package org.example.conectatec.clubFeed.domain;
 
 import org.example.conectatec.auth.utils.AuthorizationUtils;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.club.domain.Club;
-import org.example.conectatec.clubPublications.infrastructure.ClubPublicationsRepository;
+import org.example.conectatec.clubFeed.infrastructure.ClubFeedRepository;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,28 +13,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClubPublicationsService {
+public class ClubFeedService {
 
     @Autowired
-    private ClubPublicationsRepository clubPublicationsRepository;
+    private ClubFeedRepository clubFeedRepository;
 
     @Autowired
     private AuthorizationUtils authorizationUtils;
 
-    public ClubPublications findClubPublicationsById(Long id) {
-        Optional<ClubPublications> clubPublications = clubPublicationsRepository.findById(id);
+    public ClubFeed findClubPublicationsById(Long id) {
+        Optional<ClubFeed> clubPublications = clubFeedRepository.findById(id);
         return clubPublications.orElse(null);
     }
 
-    public List<ClubPublications> findAllClubPublications() {
-        return clubPublicationsRepository.findAll();
+    public List<ClubFeed> findAllClubPublications() {
+        return clubFeedRepository.findAll();
     }
 
-    public ClubPublications findClubPublicationByCareer(Career career) {
-        return clubPublicationsRepository.findByCareer(career);
+    public ClubFeed findClubPublicationByCareer(Career career) {
+        return clubFeedRepository.findByCareer(career);
     }
 
-    public ClubPublications createClubPublication(ClubPublications clubPublication) {
+    public ClubFeed createClubPublication(ClubFeed clubPublication) {
 
         Club club = clubPublication.getClub();
         Long id = club.getId();
@@ -43,12 +43,12 @@ public class ClubPublicationsService {
             throw new UnauthorizeOperationException("User has no permission to modify this resource");
 
 
-        return clubPublicationsRepository.save(clubPublication);
+        return clubFeedRepository.save(clubPublication);
     }
 
     public void deleteClubPublicationById(Long id) {
 
-        ClubPublications clubPublication = clubPublicationsRepository.findById(id)
+        ClubFeed clubPublication = clubFeedRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ClubPublication not found with id " + id));
 
         Club club = clubPublication.getClub();
@@ -60,9 +60,9 @@ public class ClubPublicationsService {
         }
 
         // Eliminar la publicación del club
-        clubPublicationsRepository.deleteById(id);
+        clubFeedRepository.deleteById(id);
 
 
-        clubPublicationsRepository.deleteById(id);
+        clubFeedRepository.deleteById(id);
     }
 }

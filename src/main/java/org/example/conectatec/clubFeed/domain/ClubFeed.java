@@ -1,4 +1,4 @@
-package org.example.conectatec.clubPublications.domain;
+package org.example.conectatec.clubFeed.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.commentBox.domain.CommentBox;
-import org.example.conectatec.student.domain.Student;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ClubPublications {
+public class ClubFeed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

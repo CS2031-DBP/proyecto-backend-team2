@@ -2,7 +2,9 @@ package org.example.conectatec.utecServices.application;
 
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.domain.UtecServicesService;
+import org.example.conectatec.utecServices.dto.UtecServicesDto;
 import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,14 @@ public class UtecServicesController {
 
     @Autowired
     private UtecServicesService utecServicesService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UtecServices> getUtecServicesById(@PathVariable Long id) {
-        Optional<UtecServices> sutec = utecServicesService.findUtecServicesById(id);
-        return sutec.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<UtecServicesDto> getUtecServicesById(@PathVariable Long id) {
+        UtecServices utecService = utecServicesService.findUtecServicesById(id);
+        UtecServicesDto utecServicesDto = modelMapper.map(utecService, UtecServicesDto.class);
+        return new ResponseEntity<>(utecServicesDto, HttpStatus.OK);
     }
 
     @GetMapping
@@ -53,10 +58,12 @@ public class UtecServicesController {
 
     @GetMapping("/{id}/publications")
     public ResponseEntity<List<UtecServicesFeed>> getPublicationsByUtecServiceId(@PathVariable Long id) {
-        Optional<UtecServices> sutec = utecServicesService.findUtecServicesById(id);
-        if (sutec.isPresent()) {
-            return new ResponseEntity<>(sutec.get().getPublications(), HttpStatus.OK);
-        } else {
+        UtecServices utecServices = utecServicesService.findUtecServicesById(id);
+        if (utecServices != null) {
+            utecServicesService.deleteUtecServices_porId(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

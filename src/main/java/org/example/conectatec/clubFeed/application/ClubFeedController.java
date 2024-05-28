@@ -1,0 +1,61 @@
+package org.example.conectatec.clubFeed.application;
+
+import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.club.dto.ClubDto;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
+import org.example.conectatec.clubFeed.domain.ClubFeedService;
+import org.example.conectatec.clubFeed.dto.ClubFeedDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+@RestController
+@RequestMapping("/club-publications")
+public class ClubFeedController {
+
+    @Autowired
+    private ClubFeedService clubFeedService;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClubFeedDto> getClubPublication(@PathVariable Long id) {
+        ClubFeed publication = clubFeedService.findClubPublicationsById(id);
+        ClubFeedDto clubFeedDto = modelMapper.map(publication, ClubFeedDto.class);
+        return new ResponseEntity<>(clubFeedDto, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClubFeedDto>> getClubPublications() {
+        List<ClubFeed> clubs = clubFeedService.findAllClubPublications();
+        Type listType = new TypeToken<List<ClubDto>>() {}.getType();
+        List<ClubFeedDto> clubFeedDtos = modelMapper.map(clubs, listType);
+        return new ResponseEntity<>(clubFeedDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/career")
+    public ResponseEntity<ClubFeedDto> getClubPublicationByCareer(@RequestParam Career career) {
+        ClubFeed publicationByCareer = clubFeedService.findClubPublicationByCareer(career);
+        ClubFeedDto clubFeedDto = modelMapper.map(publicationByCareer, ClubFeedDto.class);
+        return new ResponseEntity<>(clubFeedDto, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClubFeedDto> createClubPublications(@RequestBody ClubFeed clubPublication) {
+        ClubFeed publication = clubFeedService.createClubPublication(clubPublication);
+        ClubFeedDto clubFeedDto = modelMapper.map(publication, ClubFeedDto.class);
+        return new ResponseEntity<>(clubFeedDto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClubPublications(@PathVariable Long id) {
+        clubFeedService.deleteClubPublicationById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+}

@@ -4,6 +4,8 @@ import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.domain.UtecServicesService;
 import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeedService;
+import org.example.conectatec.utecServicesFeed.dto.UtecServicesFeedDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,14 @@ public class UtecServicesFeedController {
     private UtecServicesFeedService utecServicesFeedService;
     @Autowired
     private UtecServicesService utecServicesService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UtecServicesFeed> getUtecServicesFeedById(@PathVariable Long id) {
-        Optional<UtecServicesFeed> sutecFeed = utecServicesFeedService.findUtecServicesPublicationsById(id);
-        return sutecFeed.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<UtecServicesFeedDto> getUtecServicesFeedById(@PathVariable Long id) {
+        UtecServicesFeed sutecFeed = utecServicesFeedService.findUtecServicesPublicationsById(id);
+        UtecServicesFeedDto dto = modelMapper.map(sutecFeed, UtecServicesFeedDto.class);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping
@@ -40,17 +45,15 @@ public class UtecServicesFeedController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UtecServicesFeed> updateUtecServicesFeed(@PathVariable Long id, @RequestBody UtecServicesFeed updatedUtecServicesFeed) {
-        Optional<UtecServicesFeed> existingUtecServicesFeed = utecServicesFeedService.findUtecServicesPublicationsById(id);
-        if (existingUtecServicesFeed.isPresent()) {
-            UtecServicesFeed sutecFeed = existingUtecServicesFeed.get();
-            sutecFeed.setHashtag(updatedUtecServicesFeed.getHashtag());
-            sutecFeed.setMedia(updatedUtecServicesFeed.getMedia());
-            sutecFeed.setAnswer(updatedUtecServicesFeed.getAnswer());
-            UtecServicesFeed savedUtecServicesFeed = utecServicesFeedService.saveUtecServicesPublications(sutecFeed);
-            return new ResponseEntity<>(savedUtecServicesFeed, HttpStatus.OK);
-        } else {
+    public ResponseEntity<UtecServicesFeed> updateUtecServicesFeed(@RequestBody UtecServicesFeed updatedUtecServicesFeed) {
+        if (updatedUtecServicesFeed.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else {
+            updatedUtecServicesFeed.setHashtag(updatedUtecServicesFeed.getHashtag());
+            updatedUtecServicesFeed.setMedia(updatedUtecServicesFeed.getMedia());
+            updatedUtecServicesFeed.setContent(updatedUtecServicesFeed.getContent());
+            UtecServicesFeed savedUtecServicesFeed = utecServicesFeedService.saveUtecServicesPublications(updatedUtecServicesFeed);
+            return new ResponseEntity<>(savedUtecServicesFeed, HttpStatus.OK);
         }
     }
 
@@ -62,18 +65,13 @@ public class UtecServicesFeedController {
 
     @GetMapping("/search")
     public ResponseEntity<List<UtecServicesFeed>> getPublicationsByHashtag(@RequestParam String hashtag) {
-        List<UtecServicesFeed> publications = utecServicesFeedService.findUtecServicesPublicationsByHashtag(hashtag);
-        return new ResponseEntity<>(publications, HttpStatus.OK);
+        List<UtecServicesFeed> posts = utecServicesFeedService.findUtecServicesPublicationsByHashtag(hashtag);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @GetMapping("/utecServices/{utecServicesId}")
-    public ResponseEntity<List<UtecServicesFeed>> getPublicationsByUtecServicesId(@PathVariable Long utecServicesId) {
-        Optional<UtecServices> utecServices = utecServicesService.findUtecServicesById(utecServicesId);
-        if (utecServices.isPresent()) {
-            List<UtecServicesFeed> publications = utecServicesFeedService.findPublicationsByUtecServices(utecServices.get());
-            return new ResponseEntity<>(publications, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<List<UtecServicesFeed>> getPublicationsByUtecServicesId(@PathVariable UtecServices utecServices) {
+        List<UtecServicesFeed> posts = utecServicesFeedService.findPublicationsByUtecServices(utecServices);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 }

@@ -2,13 +2,12 @@ package org.example.conectatec.commentBox.domain;
 
 import jakarta.transaction.Transactional;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.conectatec.commentBox.infrastructure.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentBoxService {
@@ -27,7 +26,7 @@ public class CommentBoxService {
     }
 
     @Transactional
-    public List<CommentBox> findCommentsByPublication(StudentPublications publication) {
+    public List<CommentBox> findCommentsByPublication(StudentFeed publication) {
         return commentBoxRepository.findByPublication(publication);
     }
 
