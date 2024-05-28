@@ -18,7 +18,6 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
     List<Student> findByCareer(Career career);
     Optional<Student> findByEmail(String email);
-
-
+    Student setStudent(Student student);
 
 }

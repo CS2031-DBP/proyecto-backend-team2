@@ -22,7 +22,6 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Autowired
     private UserService userService;
 
     public String extractUsername(String token) {

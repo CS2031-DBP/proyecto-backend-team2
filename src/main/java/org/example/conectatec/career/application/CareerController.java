@@ -24,7 +24,7 @@ public class CareerController {
     @PreAuthorize("hasRole('STUDENT') or hasRole('CLUB')")
     @GetMapping("/{id}")
     public ResponseEntity<CareerDto> getCareer(@PathVariable Long id) {
-        CareerDto careerDto = new CareerDto();
+        CareerDto careerDto = modelMapper.map(careerService.getCareerById(id), CareerDto.class);
         return ResponseEntity.ok(careerDto);
     }
     @PreAuthorize("hasRole('CLUB')")
