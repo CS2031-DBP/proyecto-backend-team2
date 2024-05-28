@@ -7,6 +7,7 @@ import org.example.conectatec.user.infrastructure.UserBaseRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -14,6 +15,7 @@ import java.util.List;
 public interface StudentRepository extends UserBaseRepository <Student> {
 
     List<Student> findByCareer(Career career);
+
 
 
 }

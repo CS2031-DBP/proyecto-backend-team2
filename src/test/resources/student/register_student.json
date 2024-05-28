@@ -1,0 +1,10 @@
+{
+  "name": "Test Student",
+  "email": "teststudent@example.com",
+  "password": "password",
+  "role": "STUDENT",
+  "career": {
+    "id": 1,
+    "name": "Engineering"
+  }
+}

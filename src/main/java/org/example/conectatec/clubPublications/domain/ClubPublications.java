@@ -25,24 +25,15 @@ public class ClubPublications {
 
     private String caption;
 
-    // Ajustamos el campo media
-    private String media; // Por el momento esto.
+    private String media;
 
     @ManyToOne
     private Career career;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
 
-
     @OneToMany(mappedBy = "clubPublication", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CommentBox> comments;
-
-
-
-
-
-
 }

@@ -18,9 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Inheritance(strategy = InheritanceType.JOINED)
 
-@Table(name = "app_user")
-
+@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User  implements UserDetails {
 
     @Id
