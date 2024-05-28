@@ -64,7 +64,7 @@ public class ClubFeedController {
         clubFeedService.deleteClubPublicationById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC')")
+    @PreAuthorize("hasRole('CLUB')")
     @PutMapping("/{id}")
     public ResponseEntity<ClubFeedDto> updateClubPublication(@PathVariable Long id, @Valid @RequestBody ClubFeedDto clubFeedDto) {
         ClubFeed updatedPublication = clubFeedService.updateClubPublication(id, clubFeedDto);
@@ -72,7 +72,7 @@ public class ClubFeedController {
         return new ResponseEntity<>(updatedPublicationDto, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC')")
+    @PreAuthorize("hasRole('CLUB')")
     @PatchMapping("/{id}")
     public ResponseEntity<ClubFeedDto> partiallyUpdateClubPublication(@PathVariable Long id, @Valid @RequestBody ClubFeedDto clubFeedDto) {
         ClubFeed updatedPublication = clubFeedService.partiallyUpdateClubPublication(id, clubFeedDto);
