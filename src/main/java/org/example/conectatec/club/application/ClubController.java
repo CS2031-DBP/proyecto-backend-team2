@@ -1,8 +1,10 @@
 package org.example.conectatec.club.application;
 
+import jakarta.validation.Valid;
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.club.domain.ClubService;
 import org.example.conectatec.club.dto.ClubDto;
+import org.example.conectatec.club.dto.ClubUpdateDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +55,18 @@ public class ClubController {
         clubService.getClubInfo(id);
         clubService.deleteClubById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PreAuthorize("hasRole('CLUB')")
+    @PutMapping("/{id}")
+    public ResponseEntity<ClubDto> updateClub(@PathVariable Long id, @Valid @RequestBody ClubUpdateDto clubUpdateDto) {
+        ClubDto updatedClub = clubService.updateClub(id, clubUpdateDto);
+        return new ResponseEntity<>(updatedClub, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('CLUB') ")
+    @PatchMapping("/{id}")
+    public ResponseEntity<ClubDto> partiallyUpdateClub(@PathVariable Long id, @Valid @RequestBody ClubUpdateDto clubUpdateDto) {
+        ClubDto updatedClub = clubService.partiallyUpdateClub(id, clubUpdateDto);
+        return new ResponseEntity<>(updatedClub, HttpStatus.OK);
     }
 }
