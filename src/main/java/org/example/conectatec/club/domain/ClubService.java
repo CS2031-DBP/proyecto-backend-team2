@@ -19,8 +19,6 @@ public class ClubService {
     private ClubRepository clubRepository;
     @Autowired
     private final AuthorizationUtils authorizationUtils;
-    @Autowired
-    private HttpServletResponse httpServletResponse;
 
     @Autowired
     public ClubService(ClubRepository clubRepository, AuthorizationUtils authorizationUtils) {
@@ -29,21 +27,28 @@ public class ClubService {
     }
 
     public ClubDto getClubInfo(Long id) {
-        if(!authorizationUtils.isAdminOrResourceOwner(id)){
+        if (!authorizationUtils.isAdminOrResourceOwner(id)) {
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
         }
-        Club club = ClubRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
+
+        Club club = clubRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Club not found"));
 
         ClubDto response = new ClubDto();
         response.setId(club.getId());
         response.setName(club.getName());
         response.setEmail(club.getEmail());
-        response.setCarrera(club.getCarrera());;
-        ClubFeed clubFeed = Club.getClubFeed();
-        ClubFeedDto clubFeedDto = new ClubFeedDto();
-        clubFeedDto.setId(clubFeed.getId());
-        clubFeed.
-        return ;
+        response.setCarrera(club.getCarrera());
+
+        ClubFeed clubFeed = club.getClubFeed();
+        if (clubFeed != null) {
+            ClubFeedDto clubFeedDto = new ClubFeedDto();
+            clubFeedDto.setId(clubFeed.getId());
+            clubFeedDto.setCaption(clubFeed.getCaption());
+            clubFeedDto.setMedia(clubFeed.getMedia());
+            response.setClubFeed(clubFeedDto);
+        }
+
+        return response;
     }
 
     public List<Club> getAllClubs() {

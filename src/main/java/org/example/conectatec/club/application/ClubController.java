@@ -18,21 +18,19 @@ import java.util.List;
 @RequestMapping("/club")
 public class ClubController {
 
-    @Autowired
-    private ClubService clubService;
+    private final ClubService clubService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    public ClubController(ClubService clubService) {
+    public ClubController(ClubService clubService, ModelMapper modelMapper) {
         this.clubService = clubService;
+        this.modelMapper = modelMapper;
     }
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
-    @GetMapping("/{id}")
+    @GetMapping("/clubs/{id}")
     public ResponseEntity<ClubDto> getClub(@PathVariable Long id) {
-        Club club = clubService.getClubInfo(id);
-        ClubDto clubDto = modelMapper.map(club, ClubDto.class);
-        return new ResponseEntity<>(clubDto, HttpStatus.OK);
+        ClubDto club = clubService.getClubInfo(id);
+        return new ResponseEntity<>(club, HttpStatus.OK);
     }
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping
