@@ -1,9 +1,10 @@
-package org.example.conectatec.studentPublications.dto;
+package org.example.conectatec.studentFeed.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
 import org.example.conectatec.student.dto.StudentDto;
 
@@ -11,7 +12,7 @@ import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @Data
-public class StudentPublicationsDto {
+public class StudentFeedDto {
     @NotNull
     private Long id;
 
@@ -28,7 +29,7 @@ public class StudentPublicationsDto {
 
     @NotNull
     @Valid
-    private List<CommentBoxDto> commentBoxUser;
+    private List<CommentBox> commentBox;
 
     @NotNull
     @Valid

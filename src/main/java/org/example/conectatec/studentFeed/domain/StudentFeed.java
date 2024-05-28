@@ -1,10 +1,11 @@
-package org.example.conectatec.studentPublications.domain;
+package org.example.conectatec.studentFeed.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.student.domain.Student;
 
+import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class StudentPublications {
+public class StudentFeed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +26,7 @@ public class StudentPublications {
     @Column(nullable = false)
     private String hashtag;
 
-    @Column(nullable = true)
-    private String media;
+    private Media media;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

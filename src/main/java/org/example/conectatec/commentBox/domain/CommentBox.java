@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.conectatec.clubPublications.domain.ClubPublications;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.student.domain.Student;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 
 @Entity
@@ -27,7 +27,7 @@ public class CommentBox {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publication_id")
-    private StudentPublications publication;
+    private StudentFeed publication;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
@@ -35,7 +35,7 @@ public class CommentBox {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clubPublication_id")
-    private ClubPublications clubPublication;
+    private ClubFeed clubPublication;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UtecServiceFeed_id")

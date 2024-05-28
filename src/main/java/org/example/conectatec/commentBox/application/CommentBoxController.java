@@ -4,7 +4,7 @@ package org.example.conectatec.commentBox.application;
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.commentBox.domain.CommentBoxService;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
-import org.example.conectatec.studentPublications.domain.StudentPublications;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/comments")
@@ -39,7 +38,7 @@ public class CommentBoxController {
 
     @GetMapping("/publication/{publicationId}")
     public ResponseEntity<List<CommentBox>> getCommentsByPublication(@PathVariable Long publicationId) {
-        StudentPublications publication = new StudentPublications();
+        StudentFeed publication = new StudentFeed();
         publication.setId(publicationId);  // por  ID
         List<CommentBox> comments = commentBoxService.findCommentsByPublication(publication);
         return new ResponseEntity<>(comments, HttpStatus.OK);

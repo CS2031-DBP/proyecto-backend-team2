@@ -1,4 +1,4 @@
-package org.example.conectatec.clubPublications.dto;
+package org.example.conectatec.clubFeed.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import org.example.conectatec.commentBox.dto.CommentBoxDto;
 import java.util.List;
 
 @Data
-public class ClubPublicationsDto {
+public class ClubFeedDto {
     @NotNull
     private Long id;
 

@@ -28,8 +28,7 @@ public class UtecServicesFeed {
     private String media;
 
     @Column(nullable = false)
-    private String answer;
-
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicesUTEC_id")
