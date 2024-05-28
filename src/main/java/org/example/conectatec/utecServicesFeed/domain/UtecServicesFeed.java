@@ -27,7 +27,7 @@ public class UtecServicesFeed {
     @Column(nullable = false)
     private String media;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

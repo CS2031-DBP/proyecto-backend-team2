@@ -1,6 +1,7 @@
 package org.example.conectatec.utecServicesFeed.infrastructure;
 
 import org.example.conectatec.TestConectatecApplication;
+import org.example.conectatec.user.domain.Role;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +36,9 @@ public class UtecServicesFeedRepositoryTest extends TestConectatecApplication {
         utecService.setName("Servicio de Biblioteca");
         utecService.setEmail("biblioteca@utec.edu.pe");
         utecService.setPassword("biblioteca123");
+        utecService.setRole(Role.ADMIN);
+
+         // Asignar un valor válido a role
         entityManager.persist(utecService);
 
         utecServicesFeed = new UtecServicesFeed();
