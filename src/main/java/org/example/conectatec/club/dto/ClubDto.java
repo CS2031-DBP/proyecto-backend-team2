@@ -11,11 +11,6 @@ import org.example.conectatec.user.dto.UserDto;
 public class ClubDto extends UserDto {
     @NotNull
     private Long id;
-
-    @NotNull
-    @Size(max = 50)
-    private String carrera;
-
     @NotNull
     @Valid
     private CareerDto career;

@@ -1,5 +1,6 @@
 package org.example.conectatec.student.application;
 
+import jakarta.validation.constraints.Email;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.student.EmailService;
 import org.example.conectatec.student.domain.Student;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,47 +34,46 @@ public class StudentController {
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDto> getStudentById(@PathVariable Long id) {
-        Student student = studentService.findStudentById(id);
-        StudentDto studentDto = modelMapper.map(student, StudentDto.class);
+    public ResponseEntity<StudentDto> getStudent(@PathVariable Long id) {
+        StudentDto student = studentService.findStudentInfo(id);
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentDto> getStudentByEmail(@PathVariable String email) {
+        studentService.findStudentByEmail(email);
+        StudentDto studentDto = modelMapper.map(studentService.findStudentByEmail(email), StudentDto.class);
         return new ResponseEntity<>(studentDto, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = studentService.findAllStudents();
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('STUDENT')")
     @PostMapping
     public ResponseEntity<StudentDto> createStudent(@RequestBody Student student) {
         Student newStudent = studentService.saveStudent(student);
         StudentDto studentDto = modelMapper.map(newStudent, StudentDto.class);
         return new ResponseEntity<>(studentDto, HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('STUDENT')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent_porId(@PathVariable Long id) {
-        studentService.deleteStudent_porId(id);
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping("/career")
     public ResponseEntity<List<Student>> getStudentsByCareer(@RequestParam Long careerId) {
         Career career = new Career();
-        career.setId(careerId); // Id de carrera si es que se puede usar un boton para dar id.
-
+        career.setId(careerId);
         List<Student> students = studentService.findStudentsByCareer(career);
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
-
-    @GetMapping("/by-career")
-    public ResponseEntity<List<Student>> getStudentsByCareerName(@RequestParam String careerName) {
-        List<Student> students = studentService.findStudentsByCareerName(careerName);
-        return new ResponseEntity<>(students, HttpStatus.OK);
-    }
-
 
     @PostMapping("/verificacion")
     public ResponseEntity<String> sendEmail(@RequestParam String email) {

@@ -2,6 +2,8 @@ package org.example.conectatec.club.domain;
 
 import jakarta.transaction.Transactional;
 import org.example.conectatec.auth.utils.AuthorizationUtils;
+import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.club.dto.ClubDto;
 import org.example.conectatec.club.dto.ClubUpdateDto;
 import org.example.conectatec.club.infrastructure.ClubRepository;
@@ -26,19 +28,13 @@ public class ClubService {
     }
 
     public ClubDto getClubInfo(Long id) {
-        if (!authorizationUtils.isAdminOrResourceOwner(id)) {
-            throw new UnauthorizeOperationException("You do not have permission to access this resource");
-        }
 
         Club club = clubRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Club not found"));
         return mapToDto(club);
     }
 
     public List<Club> getAllClubs() {
-        String username = authorizationUtils.getCurrentUserEmail();
-        if (username == null) {
-            throw new UnauthorizeOperationException("You do not have permission to access this resource");
-        }
+
         return clubRepository.findAll();
     }
 
@@ -68,8 +64,11 @@ public class ClubService {
 
         club.setName(clubUpdateDto.getName());
         club.setEmail(clubUpdateDto.getEmail());
-        club.setCarrera(clubUpdateDto.getCarrera());
         club.setPassword(clubUpdateDto.getPassword());
+        Career career = club.getCareer();
+        if (career != null) {
+            club.setCareer(career);
+        }
 
         clubRepository.save(club);
         return mapToDto(club);
@@ -82,15 +81,15 @@ public class ClubService {
         }
 
         Club club = clubRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Club not found"));
-
+        Career career = club.getCareer();
         if (clubUpdateDto.getName() != null) {
             club.setName(clubUpdateDto.getName());
         }
         if (clubUpdateDto.getEmail() != null) {
             club.setEmail(clubUpdateDto.getEmail());
         }
-        if (clubUpdateDto.getCarrera() != null) {
-            club.setCarrera(clubUpdateDto.getCarrera());
+        if (clubUpdateDto.getCareer() != null) {
+            club.setCareer(career);
         }
 
         clubRepository.save(club);
@@ -102,7 +101,14 @@ public class ClubService {
         response.setId(club.getId());
         response.setName(club.getName());
         response.setEmail(club.getEmail());
-        response.setCarrera(club.getCarrera());
+        Career career = club.getCareer();
+        if (career != null) {
+            CareerDto careerDto = new CareerDto();
+            careerDto.setId(career.getId());
+            careerDto.setName(career.getName());
+            careerDto.setFacultad(career.getFacultad());
+            response.setCareer(careerDto);
+        }
 
         ClubFeed clubFeed = club.getClubFeed();
         if (clubFeed != null) {

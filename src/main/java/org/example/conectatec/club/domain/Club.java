@@ -21,9 +21,6 @@ public class Club extends User {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
-    private String carrera;
-
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "club_feed_id", unique = true, nullable = false)
     private ClubFeed clubFeed;

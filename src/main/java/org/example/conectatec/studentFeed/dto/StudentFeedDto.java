@@ -25,13 +25,10 @@ public class StudentFeedDto {
 
     @NotNull
     @Size(max = 500)
-    private String answer;
+    private String caption;
 
     @NotNull
     @Valid
     private List<CommentBox> commentBox;
 
-    @NotNull
-    @Valid
-    private StudentDto student;
 }

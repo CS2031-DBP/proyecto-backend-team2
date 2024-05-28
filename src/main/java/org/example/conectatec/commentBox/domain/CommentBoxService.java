@@ -21,16 +21,6 @@ public class CommentBoxService {
     }
 
     @Transactional
-    public CommentBox findCommentBoxById(Long id) {
-        return commentBoxRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Comment not found"));
-    }
-
-    @Transactional
-    public List<CommentBox> findCommentsByPublication(StudentFeed publication) {
-        return commentBoxRepository.findByPublication(publication);
-    }
-
-    @Transactional
     public void deleteCommentBox(Long id) {
         commentBoxRepository.deleteById(id);
     }
