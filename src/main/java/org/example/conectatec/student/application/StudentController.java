@@ -40,9 +40,8 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
-    @GetMapping("/{id}")
+    @GetMapping("/{email}")
     public ResponseEntity<StudentDto> getStudentByEmail(@PathVariable String email) {
-        studentService.findStudentByEmail(email);
         StudentDto studentDto = modelMapper.map(studentService.findStudentByEmail(email), StudentDto.class);
         return new ResponseEntity<>(studentDto, HttpStatus.OK);
     }

@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +21,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 
 @Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-public class User  implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue

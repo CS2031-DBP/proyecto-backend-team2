@@ -22,7 +22,8 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    private UserService userService;
+    @Autowired
+    UserService userService;
 
     public String extractUsername(String token) {
         return JWT.decode(token).getSubject();

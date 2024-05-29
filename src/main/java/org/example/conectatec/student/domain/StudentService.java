@@ -2,21 +2,28 @@ package org.example.conectatec.student.domain;
 
 
 import jakarta.transaction.Transactional;
+import jdk.jfr.Frequency;
+import org.example.conectatec.auth.dto.RegisterReq;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.student.dto.StudentDto;
+import org.example.conectatec.student.events.HelloEmailEvent;
 import org.example.conectatec.student.infrastructure.StudentRepository;
 import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.studentFeed.dto.StudentFeedDto;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.example.conectatec.auth.utils.AuthorizationUtils;
 
 @Service
 public class StudentService {
+
+    @Autowired
+    public ApplicationEventPublisher applicationEventPublisher;
 
     private final StudentRepository studentRepository;
     private final AuthorizationUtils authorizationUtils;
@@ -33,7 +40,10 @@ public class StudentService {
         if(username == null){
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
         }
+        applicationEventPublisher.publishEvent(new HelloEmailEvent(student.getEmail()));
+
         return studentRepository.save(student);
+
     }
 
     @Transactional
