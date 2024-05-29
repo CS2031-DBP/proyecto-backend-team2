@@ -32,7 +32,7 @@ public class UtecServicesController {
     }
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
-    @GetMapping("/email/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<UtecServicesDto> getUtecServicesByEmail(@PathVariable String email) {
         UtecServicesDto utecServicesDto = modelMapper.map(utecServicesService.findUtecServicesByEmail(email), UtecServicesDto.class);
         return new ResponseEntity<>(utecServicesDto, HttpStatus.OK);

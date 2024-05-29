@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.List;
 import java.util.Optional;
 
+import static org.example.conectatec.user.domain.Role.STUDENT;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -41,6 +42,7 @@ public class StudentRepositoryTest extends TestConectatecApplication  {
         student.setEmail("juan.perez@example.com");
         student.setPassword("password123");
         student.setCareer(career);
+        student.setRole(STUDENT);
 
         entityManager.persist(student);
         entityManager.flush();

@@ -1,0 +1,11 @@
+{
+  "name": "Career name",
+  "facultad": "teststudent@example.com",
+  "students": {
+    "id": 1,
+    "name": "Patroclo",
+    "email": "johndoe@example.com",
+    "password": "afeahfusesg",
+    "role": "STUDENT"
+  }
+}

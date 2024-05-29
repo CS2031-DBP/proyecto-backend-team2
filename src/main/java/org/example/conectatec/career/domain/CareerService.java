@@ -21,7 +21,7 @@ public class CareerService {
 
     @Transactional
     public Career getCareerById(Long id) {
-        return careerRepository.findById(id).get();
+        return careerRepository.findById(id).orElseThrow();
     }
 
     @Transactional
