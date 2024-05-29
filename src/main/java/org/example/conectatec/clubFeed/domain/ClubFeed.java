@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.commentBox.domain.CommentBox;
-
 import java.util.List;
 
 @Entity

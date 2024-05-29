@@ -19,7 +19,7 @@ public class ClubFeedDto {
     private String caption;
 
     @NotNull
-    private String media; // Assuming media is stored as a URL or simple string path
+    private String media;
 
     @NotNull
     @Valid

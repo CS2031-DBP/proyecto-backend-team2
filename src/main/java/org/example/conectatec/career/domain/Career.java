@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.student.domain.Student;
-import org.example.conectatec.user.domain.User;
 
 import java.util.List;
 

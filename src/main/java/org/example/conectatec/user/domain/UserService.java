@@ -1,18 +1,15 @@
 package org.example.conectatec.user.domain;
 
-import org.example.conectatec.club.domain.Club;
+
 import org.example.conectatec.club.infrastructure.ClubRepository;
-import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.infrastructure.StudentRepository;
 import org.example.conectatec.user.infrastructure.UserBaseRepository;
-import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,9 +47,6 @@ public class UserService {
         return user;
 
     }
-
-
-
 
     @Bean(name = "UserDetailsService")
     public UserDetailsService userDetailsService() {

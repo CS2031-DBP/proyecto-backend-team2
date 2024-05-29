@@ -5,8 +5,6 @@ import lombok.*;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.student.domain.Student;
-
-import javax.print.attribute.standard.Media;
 import java.util.ArrayList;
 import java.util.List;
 

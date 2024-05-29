@@ -1,9 +1,7 @@
 package org.example.conectatec.student.application;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.student.EmailService;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.domain.StudentService;
 import org.example.conectatec.student.dto.StudentDto;
@@ -14,11 +12,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/student")
@@ -26,10 +22,9 @@ public class StudentController {
 
 
     private final StudentService studentService;
-
     private final ModelMapper modelMapper;
-
     private final ApplicationEventPublisher applicationEventPublisher;
+
     @Autowired
     public StudentController(StudentService studentService, ApplicationEventPublisher applicationEventPublisher, ModelMapper modelMapper) {
         this.studentService = studentService;

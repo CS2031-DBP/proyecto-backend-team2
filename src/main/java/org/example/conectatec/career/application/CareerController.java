@@ -16,10 +16,14 @@ import java.util.List;
 @RequestMapping("/career")
 public class CareerController {
 
+    private final CareerService careerService;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    private CareerService careerService;
-    @Autowired
-    private ModelMapper modelMapper;
+    public CareerController(CareerService careerService, ModelMapper modelMapper) {
+        this.careerService = careerService;
+        this.modelMapper = modelMapper;
+    }
 
     @PreAuthorize("hasRole('STUDENT') or hasRole('CLUB')")
     @GetMapping("/{id}")
@@ -27,12 +31,14 @@ public class CareerController {
         CareerDto careerDto = modelMapper.map(careerService.getCareerById(id), CareerDto.class);
         return ResponseEntity.ok(careerDto);
     }
-    @PreAuthorize("hasRole('CLUB')")
+
+    @PreAuthorize("hasRole('STUDENT') or hasRole('CLUB')")
     @GetMapping
-    public ResponseEntity<List<Career>> getClubs() {
+    public ResponseEntity<List<Career>> getAllCareers() {
         List<Career> careers = careerService.getAllCareers();
         return ResponseEntity.ok(careers);
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}")
     public ResponseEntity<CareerDto> createCareer(@RequestBody Career career) {

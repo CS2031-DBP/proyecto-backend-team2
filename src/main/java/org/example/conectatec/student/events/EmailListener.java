@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailListener {
 
-
     @Autowired
     private EmailService emailService;
 

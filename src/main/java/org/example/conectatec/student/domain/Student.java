@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.user.domain.User;
-
 import java.util.ArrayList;
 import java.util.List;
 

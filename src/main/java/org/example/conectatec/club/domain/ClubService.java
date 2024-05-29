@@ -26,18 +26,17 @@ public class ClubService {
         this.clubRepository = clubRepository;
         this.authorizationUtils = authorizationUtils;
     }
-
+    @Transactional
     public ClubDto getClubInfo(Long id) {
 
         Club club = clubRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Club not found"));
         return mapToDto(club);
     }
-
+    @Transactional
     public List<Club> getAllClubs() {
-
         return clubRepository.findAll();
     }
-
+    @Transactional
     public Club createClub(Club club) {
         String username = authorizationUtils.getCurrentUserEmail();
         if (username == null) {
@@ -45,7 +44,7 @@ public class ClubService {
         }
         return clubRepository.save(club);
     }
-
+    @Transactional
     public void deleteClubById(Long id) {
         if (!authorizationUtils.isAdminOrResourceOwner(id)) {
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
