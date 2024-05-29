@@ -23,8 +23,7 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-    @Autowired
-    private UserService userService;
+
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq req) {
@@ -37,17 +36,17 @@ public class AuthController {
     }
     @PostMapping("/utec-services")
     public ResponseEntity<User> registerUtecServices(@RequestBody UtecServices user) {
-        return new ResponseEntity<>(userService.registerUtecServices(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(authService.registerUtecServices(user), HttpStatus.CREATED);
     }
 
     @PostMapping("/student")
     public ResponseEntity<User> registerStudent(@RequestBody Student user) {
-        return new ResponseEntity<>(userService.registerStudent(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(authService.registerStudent(user), HttpStatus.CREATED);
     }
 
     @PostMapping("/club")
     public ResponseEntity<User> registerClub(@RequestBody Club user) {
-        return new ResponseEntity<>(userService.registerClub(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(authService.registerClub(user), HttpStatus.CREATED);
     }
 
 }

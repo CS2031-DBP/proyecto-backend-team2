@@ -29,26 +29,29 @@ public class UtecServicesController {
         UtecServicesDto utecServicesDto = utecServicesService.findUtecServicesInfo(id);
         return new ResponseEntity<>(utecServicesDto, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
-    @GetMapping("/{id}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<UtecServicesDto> getUtecServicesByEmail(@PathVariable String email) {
-        utecServicesService.findUtecServicesByEmail(email);
         UtecServicesDto utecServicesDto = modelMapper.map(utecServicesService.findUtecServicesByEmail(email), UtecServicesDto.class);
         return new ResponseEntity<>(utecServicesDto, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping
     public ResponseEntity<List<UtecServices>> getAllUtecServices() {
-        List<UtecServices> sutec = utecServicesService.findAllUtecServices();
-        return new ResponseEntity<>(sutec, HttpStatus.OK);
+        List<UtecServices> utecServicesList = utecServicesService.findAllUtecServices();
+        return new ResponseEntity<>(utecServicesList, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('UTEC')")
     @PostMapping
     public ResponseEntity<UtecServices> createUtecServices(@RequestBody UtecServices utecServices) {
         UtecServices newUtecServices = utecServicesService.saveUtecServices(utecServices);
         return new ResponseEntity<>(newUtecServices, HttpStatus.CREATED);
     }
-    @PreAuthorize("hasRole('UTEC') ")
+
+    @PreAuthorize("hasRole('UTEC')")
     @PutMapping("/{id}")
     public ResponseEntity<UtecServices> updateUtecServices(@PathVariable Long id, @RequestBody UtecServices utecServices) {
         UtecServices updatedUtecServices = utecServicesService.updateUtecServices(id, utecServices);
@@ -58,10 +61,22 @@ public class UtecServicesController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PreAuthorize("hasRole('UTEC')")
+    @PatchMapping("/{id}")
+    public ResponseEntity<UtecServices> partialUpdateUtecServices(@PathVariable Long id, @RequestBody UtecServices utecServices) {
+        UtecServices updatedUtecServices = utecServicesService.partialUpdateUtecServices(id, utecServices);
+        if (updatedUtecServices != null) {
+            return new ResponseEntity<>(updatedUtecServices, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PreAuthorize("hasRole('UTEC')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUtecServices_porId(@PathVariable Long id) {
-        utecServicesService.deleteUtecServices_porId(id);
+    public ResponseEntity<Void> deleteUtecServicesPorId(@PathVariable Long id) {
+        utecServicesService.deleteUtecServicesPorId(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

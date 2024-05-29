@@ -30,29 +30,21 @@ public class AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final StudentRepository studentRepository;
+    private final ClubRepository clubRepository;
+    private final UtecServicesRepository utecServicesRepository;
+    private final CareerRepository careerRepository;
 
     @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private ClubRepository clubRepository;
-
-    @Autowired
-    private UtecServicesRepository utecServicesRepository;
-
-    @Autowired
-    private CareerRepository careerRepository;
-
-
-
-
-
-    @Autowired
-    public AuthService(UserBaseRepository<User> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public AuthService(UserBaseRepository<User> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ModelMapper modelMapper, StudentRepository studentRepository, ClubRepository clubRepository, UtecServicesRepository utecServicesRepository, CareerRepository careerRepository) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
+        this.studentRepository = studentRepository;
+        this.clubRepository = clubRepository;
+        this.utecServicesRepository = utecServicesRepository;
+        this.careerRepository = careerRepository;
     }
 
     public JwtAuthResponse login(LoginReq req) {
@@ -113,5 +105,22 @@ public class AuthService {
         } else {
             throw new IllegalArgumentException("Invalid role");
         }
+    }
+    public User registerUtecServices(UtecServices user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.UTEC);
+        return utecServicesRepository.save(user);
+    }
+
+    public User registerStudent(Student user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.STUDENT);
+        return studentRepository.save(user);
+    }
+
+    public User registerClub(Club user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.CLUB);
+        return clubRepository.save(user);
     }
 }

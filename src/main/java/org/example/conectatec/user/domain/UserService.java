@@ -18,37 +18,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserBaseRepository<User> userRepository;
 
-
+    private final UserBaseRepository<User> userRepository;
+    private final StudentRepository studentRepository;
+    private final ClubRepository clubRepository;
+    private final UtecServicesRepository utecServicesRepository;
     @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private ClubRepository clubRepository;
-    @Autowired
-    private UtecServicesRepository utecServicesRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public User registerUtecServices(UtecServices user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(user.getRole());
-        return utecServicesRepository.save(user);
+    public UserService(UserBaseRepository<User> userRepository, StudentRepository studentRepository, ClubRepository clubRepository, UtecServicesRepository utecServicesRepository) {
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.clubRepository = clubRepository;
+        this.utecServicesRepository = utecServicesRepository;
     }
 
-    public User registerStudent(Student user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(user.getRole());
-        return studentRepository.save(user);
-    }
-
-    public User registerClub(Club user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(user.getRole());
-        return clubRepository.save(user);
-    }
 
     public User findByEmail(String email, String role) {
         User user;
