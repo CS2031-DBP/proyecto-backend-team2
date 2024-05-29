@@ -29,16 +29,10 @@ public class ClubFeedController {
         this.clubFeedService = clubFeedService;
         this.modelMapper = modelMapper;
     }
-    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
-    @GetMapping("/{id}")
-    public ResponseEntity<ClubFeedDto> getClubPublication(@PathVariable Long id) {
-        ClubFeed publication = clubFeedService.findClubPublicationsById(id);
-        ClubFeedDto clubFeedDto = modelMapper.map(publication, ClubFeedDto.class);
-        return new ResponseEntity<>(clubFeedDto, HttpStatus.OK);
-    }
+
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping
-    public ResponseEntity<List<ClubFeedDto>> getClubPublications() {
+    public ResponseEntity<List<ClubFeedDto>> getAllClubPublications() {
         List<ClubFeed> clubs = clubFeedService.findAllClubPublications();
         Type listType = new TypeToken<List<ClubDto>>() {}.getType();
         List<ClubFeedDto> clubFeedDtos = modelMapper.map(clubs, listType);

@@ -1,5 +1,8 @@
 package org.example.conectatec.studentFeed.application;
 
+import org.example.conectatec.career.domain.Career;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
+import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.studentFeed.domain.StudentFeedService;
 import org.example.conectatec.studentFeed.dto.StudentFeedDto;
@@ -34,6 +37,13 @@ public class StudentFeedController {
         Type ListType = new TypeToken<List<StudentFeedDto>>() {}.getType();
         List<StudentFeedDto> studentPostsDto = modelMapper.map(studentPosts, ListType);
         return new ResponseEntity<>(studentPostsDto, HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
+    @GetMapping("/career")
+    public ResponseEntity<StudentFeedDto> getStudentPublicationByCareer(@RequestParam Career career) {
+        StudentFeed publicationByCareer = studentFeedService.findStudentPublicationByCareer(career);
+        StudentFeedDto studentFeedDto = modelMapper.map(publicationByCareer, StudentFeedDto.class);
+        return new ResponseEntity<>(studentFeedDto, HttpStatus.OK);
     }
     @PreAuthorize("hasRole('STUDENT')")
     @PostMapping

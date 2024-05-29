@@ -26,11 +26,6 @@ public class ClubFeedService {
         this.authorizationUtils = authorizationUtils;
     }
 
-    public ClubFeed findClubPublicationsById(Long id) {
-        Optional<ClubFeed> clubPublications = clubFeedRepository.findById(id);
-        return clubPublications.orElse(null);
-    }
-
     public List<ClubFeed> findAllClubPublications() {
         return clubFeedRepository.findAll();
     }
