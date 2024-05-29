@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
 import org.example.conectatec.utecServices.dto.UtecServicesDto;
-
 import javax.print.attribute.standard.Media;
 import java.util.List;
 

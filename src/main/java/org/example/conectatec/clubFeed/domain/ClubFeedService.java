@@ -1,5 +1,6 @@
 package org.example.conectatec.clubFeed.domain;
 
+import jakarta.transaction.Transactional;
 import org.example.conectatec.auth.utils.AuthorizationUtils;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.club.domain.Club;
@@ -8,9 +9,7 @@ import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 
 @Service
@@ -25,15 +24,17 @@ public class ClubFeedService {
         this.clubFeedRepository = clubFeedRepository;
         this.authorizationUtils = authorizationUtils;
     }
-
+    @Transactional
     public List<ClubFeed> findAllClubPublications() {
         return clubFeedRepository.findAll();
     }
 
+    @Transactional
     public ClubFeed findClubPublicationByCareer(Career career) {
         return clubFeedRepository.findByCareer(career);
     }
 
+    @Transactional
     public ClubFeed createClubPublication(ClubFeed clubPublication) {
         String username = authorizationUtils.getCurrentUserEmail();
         if(username == null){
@@ -48,7 +49,7 @@ public class ClubFeedService {
 
         return clubFeedRepository.save(clubPublication);
     }
-
+    @Transactional
     public void deleteClubPublicationById(Long id) {
         if(!authorizationUtils.isAdminOrResourceOwner(id)){
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
@@ -69,6 +70,8 @@ public class ClubFeedService {
 
         clubFeedRepository.deleteById(id);
     }
+
+    @Transactional
     public ClubFeed updateClubPublication(Long id, ClubFeedDto clubFeedDto) {
         if(!authorizationUtils.isAdminOrResourceOwner(id)){
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
@@ -86,16 +89,14 @@ public class ClubFeedService {
         return clubFeedRepository.save(existingPublication);
     }
 
+    @Transactional
     public ClubFeed partiallyUpdateClubPublication(Long id, ClubFeedDto clubFeedDto) {
-        if(!authorizationUtils.isAdminOrResourceOwner(id)){
-            throw new UnauthorizeOperationException("You do not have permission to access this resource");
-        }
         ClubFeed existingPublication = clubFeedRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Club publication not found with id: " + id));
 
         Long clubId = existingPublication.getClub().getId();
         if (!authorizationUtils.isAdminOrResourceOwner(clubId)) {
-            throw new UnauthorizeOperationException("User does not have permission to update this resource");
+            throw new UnauthorizeOperationException("You do not have permission to access this resource");
         }
 
         mapDtoToEntity(clubFeedDto, existingPublication);

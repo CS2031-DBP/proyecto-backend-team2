@@ -1,5 +1,6 @@
 package org.example.conectatec.auth.domain;
 
+import jakarta.transaction.Transactional;
 import org.example.conectatec.auth.dto.JwtAuthResponse;
 import org.example.conectatec.auth.dto.LoginReq;
 import org.example.conectatec.auth.dto.RegisterReq;
@@ -46,7 +47,7 @@ public class AuthService {
         this.utecServicesRepository = utecServicesRepository;
         this.careerRepository = careerRepository;
     }
-
+    @Transactional
     public JwtAuthResponse login(LoginReq req) {
         Optional<User> user = userRepository.findByEmail(req.getEmail());
 
@@ -59,7 +60,7 @@ public class AuthService {
         response.setToken(jwtService.generateToken(user.get()));
         return response;
     }
-
+    @Transactional
     public JwtAuthResponse register(RegisterReq req) {
         Optional<User> user = userRepository.findByEmail(req.getEmail());
         if (user.isPresent()) throw new UserAlreadyExistException("Email is already registered");
@@ -106,18 +107,19 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid role");
         }
     }
+    @Transactional
     public User registerUtecServices(UtecServices user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.UTEC);
         return utecServicesRepository.save(user);
     }
-
+    @Transactional
     public User registerStudent(Student user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.STUDENT);
         return studentRepository.save(user);
     }
-
+    @Transactional
     public User registerClub(Club user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.CLUB);

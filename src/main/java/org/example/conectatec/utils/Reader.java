@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -30,7 +28,6 @@ public class Reader {
         return mapper.writeValueAsString(jsonNode);
     }
 
-    // Método de ejemplo adicional para actualizar un campo anidado
     public String updateNestedField(String json, String parentKey, String key, String newValue) throws JsonProcessingException {
         JsonNode jsonNode = mapper.readTree(json);
         ((ObjectNode) jsonNode.get(parentKey)).put(key, newValue);

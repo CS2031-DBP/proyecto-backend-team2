@@ -2,13 +2,7 @@ package org.example.conectatec.utecServices.domain;
 
 import jakarta.transaction.Transactional;
 import org.example.conectatec.auth.utils.AuthorizationUtils;
-import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
-import org.example.conectatec.student.domain.Student;
-import org.example.conectatec.student.dto.StudentDto;
-import org.example.conectatec.studentFeed.domain.StudentFeed;
-import org.example.conectatec.studentFeed.dto.StudentFeedDto;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.example.conectatec.utecServices.dto.UtecServicesDto;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
@@ -17,13 +11,11 @@ import org.example.conectatec.utecServicesFeed.dto.UtecServicesFeedDto;
 import org.example.conectatec.utecServicesFeed.infrastructure.UtecServicesFeedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class UtecServicesService {
+
     private final UtecServicesRepository utecServicesRepository;
     private final UtecServicesFeedRepository utecServicesFeedRepository;
     private final AuthorizationUtils authorizationUtils;

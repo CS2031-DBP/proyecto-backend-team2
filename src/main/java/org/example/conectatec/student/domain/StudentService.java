@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.example.conectatec.auth.utils.AuthorizationUtils;
+
 @Service
 public class StudentService {
 
@@ -66,6 +67,8 @@ public class StudentService {
 
         return studentRepository.findByCareer(career);
     }
+
+    @Transactional
     public Student updateStudent(Long id, StudentDto studentDto) {
         Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
@@ -76,7 +79,7 @@ public class StudentService {
         updateStudentFields(existingStudent, studentDto);
         return studentRepository.save(existingStudent);
     }
-
+    @Transactional
     public Student partiallyUpdateStudent(Long id, StudentDto studentDto) {
         Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));

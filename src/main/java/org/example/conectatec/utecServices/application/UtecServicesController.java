@@ -1,27 +1,28 @@
 package org.example.conectatec.utecServices.application;
 
-import org.example.conectatec.student.dto.StudentDto;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.domain.UtecServicesService;
 import org.example.conectatec.utecServices.dto.UtecServicesDto;
-import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
+
 @RestController
 @RequestMapping("/UtecServices")
 public class UtecServicesController {
 
+
+    private final UtecServicesService utecServicesService;
+    private final ModelMapper modelMapper;
     @Autowired
-    private UtecServicesService utecServicesService;
-    @Autowired
-    private ModelMapper modelMapper;
+    public UtecServicesController(UtecServicesService utecServicesService, ModelMapper modelMapper) {
+        this.utecServicesService = utecServicesService;
+        this.modelMapper = modelMapper;
+    }
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @GetMapping("/{id}")

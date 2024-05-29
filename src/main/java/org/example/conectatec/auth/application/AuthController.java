@@ -7,7 +7,6 @@ import org.example.conectatec.auth.dto.RegisterReq;
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.user.domain.User;
-import org.example.conectatec.user.domain.UserService;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

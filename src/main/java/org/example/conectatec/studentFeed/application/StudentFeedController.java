@@ -1,12 +1,9 @@
 package org.example.conectatec.studentFeed.application;
 
 import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.clubFeed.domain.ClubFeed;
-import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.studentFeed.domain.StudentFeedService;
 import org.example.conectatec.studentFeed.dto.StudentFeedDto;
-import org.example.conectatec.studentFeed.infrastructure.StudentFeedRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -52,45 +48,32 @@ public class StudentFeedController {
         studentFeedService.saveStudentPublication(studentPublication);
         return new ResponseEntity<>(modelMapper.map(studentPublication, StudentFeedDto.class), HttpStatus.CREATED);
     }
+
     @PreAuthorize("hasRole('STUDENT')")
     @PutMapping("/{id}")
-    public ResponseEntity<StudentFeedDto> updateStudentPost(@PathVariable Long id, @RequestBody StudentFeedDto studentFeedDto) {
-        StudentFeed existingPost = studentFeedService.findById(id);
-        if (existingPost == null) {
+    public ResponseEntity<StudentFeed> updateStudentFeed(@PathVariable Long id, @RequestBody StudentFeed updatedStudentFeed) {
+        StudentFeed updatedFeed = studentFeedService.updateStudentPublication(id, updatedStudentFeed);
+        if (updatedFeed != null) {
+            return new ResponseEntity<>(updatedFeed, HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        StudentFeed studentPublication = modelMapper.map(studentFeedDto, StudentFeed.class);
-        studentPublication.setId(id);
-        studentFeedService.saveStudentPublication(studentPublication);
-        return new ResponseEntity<>(modelMapper.map(studentPublication, StudentFeedDto.class), HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('STUDENT')")
     @PatchMapping("/{id}")
-    public ResponseEntity<StudentFeedDto> partialUpdateStudentPost(@PathVariable Long id, @RequestBody StudentFeedDto studentFeedDto) {
-        StudentFeed existingPost = studentFeedService.findById(id);
-        if (existingPost == null) {
+    public ResponseEntity<StudentFeed> partialUpdateStudentFeed(@PathVariable Long id, @RequestBody StudentFeed partialStudentFeed) {
+        StudentFeed updatedFeed = studentFeedService.partialUpdateStudentPublication(id, partialStudentFeed);
+        if (updatedFeed != null) {
+            return new ResponseEntity<>(updatedFeed, HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        StudentFeed studentPublication = existingPost.getStudent().getStudentFeed();
-        if (studentFeedDto.getHashtag() != null) {
-            studentPublication.setHashtag(studentFeedDto.getHashtag());
-        }
-        if (studentFeedDto.getMedia() != null) {
-            studentPublication.setMedia(studentFeedDto.getMedia());
-        }
-        if (studentFeedDto.getCommentBox() != null) {
-            studentPublication.setComments(studentFeedDto.getCommentBox());
-        }
-        studentFeedService.saveStudentPublication(studentPublication);
-        return new ResponseEntity<>(modelMapper.map(studentPublication, StudentFeedDto.class), HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('STUDENT')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudentPost(@PathVariable Long id) {
-        StudentFeed existingPost = studentFeedService.findById(id);
-        if (existingPost == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Void> deleteStudentFeed(@PathVariable Long id) {
         studentFeedService.deleteStudentPublication(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

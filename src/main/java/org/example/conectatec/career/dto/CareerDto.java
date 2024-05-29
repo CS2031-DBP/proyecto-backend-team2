@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.conectatec.student.dto.StudentDto;
-
 import java.util.List;
 
 @Data
