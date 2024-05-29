@@ -33,7 +33,7 @@ public class CommentBoxController {
         return new ResponseEntity<>(commentBoxDto, HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentBoxService.deleteCommentBox(id);
