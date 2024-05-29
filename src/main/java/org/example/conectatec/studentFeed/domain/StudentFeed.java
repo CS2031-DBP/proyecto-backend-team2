@@ -2,6 +2,7 @@ package org.example.conectatec.studentFeed.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.student.domain.Student;
 

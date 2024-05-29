@@ -8,6 +8,8 @@ import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
+
 import org.example.conectatec.auth.utils.AuthorizationUtils;
 
 @Service
@@ -44,7 +46,8 @@ public class StudentFeedService {
     }
     @Transactional
     public StudentFeed findStudentPublicationByCareer(Career career) {
-        return studentFeedRepository.findByCareer(career);
+        Optional<StudentFeed> studentFeed = studentFeedRepository.findByCareer(career);
+        return studentFeed.orElseThrow(()-> new ResourceNotFoundException("Student post not found"));
     }
 
     @Transactional

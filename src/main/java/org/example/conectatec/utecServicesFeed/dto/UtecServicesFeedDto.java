@@ -19,7 +19,7 @@ public class UtecServicesFeedDto extends UtecServicesDto {
     private String hashtag;
 
     @NotNull
-    private Media media;
+    private String media;
 
     @NotNull
     @Size(max = 500)

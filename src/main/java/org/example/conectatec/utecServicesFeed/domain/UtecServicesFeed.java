@@ -26,7 +26,7 @@ public class UtecServicesFeed {
     private String hashtag;
 
     @Column(nullable = false)
-    private Media media;
+    private String media;
 
     @Column(nullable = true)
     private String caption;
