@@ -40,9 +40,12 @@ public class CareerService {
 
     @Transactional
     public void deleteCareerById(Long id) {
-        if(!authorizationUtils.isAdminOrResourceOwner(id)){
+
+        String username = authorizationUtils.getCurrentUserEmail();
+        if(username == null){
             throw new UnauthorizeOperationException("You do not have permission to access this resource");
         }
+
         Career career = careerRepository.findById(id).get();
         careerRepository.delete(career);
     }

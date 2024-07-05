@@ -1,9 +1,7 @@
 package org.example.conectatec.auth.domain;
 
 import jakarta.transaction.Transactional;
-import org.example.conectatec.auth.dto.JwtAuthResponse;
-import org.example.conectatec.auth.dto.LoginReq;
-import org.example.conectatec.auth.dto.RegisterReq;
+import org.example.conectatec.auth.dto.*;
 import org.example.conectatec.auth.exceptions.UserAlreadyExistException;
 import org.example.conectatec.career.infrastructure.CareerRepository;
 import org.example.conectatec.club.domain.Club;
@@ -18,10 +16,12 @@ import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
 @Service
@@ -124,5 +124,41 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.CLUB);
         return clubRepository.save(user);
+    }
+
+    @Transactional
+    public JwtAuthResponse registerAdmin(AdminRegisterReq req) {
+        Optional<User> user = userRepository.findByEmail(req.getEmail());
+        if (user.isPresent()) throw new UserAlreadyExistException("Email is already registered");
+
+        User admin = new User();
+        admin.setRole(Role.ADMIN);
+        admin.setName(req.getName());
+        admin.setEmail(req.getEmail());
+        admin.setPassword(passwordEncoder.encode(req.getPassword()));
+
+        userRepository.save(admin);
+
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwtService.generateToken(admin));
+        return response;
+    }
+
+    @Transactional
+    public JwtAuthResponse loginAdmin(AdminLoginReq req) throws AccessDeniedException {
+        User user = userRepository.findByEmail(req.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid password");
+        }
+
+        if (!user.getRole().equals(Role.ADMIN)) {
+            throw new AccessDeniedException("Not authorized");
+        }
+
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(jwtService.generateToken(user));
+        return response;
     }
 }

@@ -40,16 +40,17 @@ public class CareerController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{id}")
+    @PostMapping("/create")
     public ResponseEntity<CareerDto> createCareer(@RequestBody Career career) {
         Career careerCreated = careerService.createCareer(career);
         CareerDto careerDto = modelMapper.map(careerCreated, CareerDto.class);
         return new ResponseEntity<>(careerDto, HttpStatus.CREATED);
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping
-    public ResponseEntity<Career> deleteCareer(@RequestBody Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCareer(@PathVariable Long id) {
         careerService.deleteCareerById(id);
         return ResponseEntity.noContent().build();
     }
+
 }
