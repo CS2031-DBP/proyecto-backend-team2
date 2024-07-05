@@ -9,6 +9,7 @@ import org.example.conectatec.club.infrastructure.ClubRepository;
 import org.example.conectatec.config.JwtService;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.infrastructure.StudentRepository;
+import org.example.conectatec.studentFeed.domain.StudentFeed;
 import org.example.conectatec.user.domain.Role;
 import org.example.conectatec.user.domain.User;
 import org.example.conectatec.user.infrastructure.UserBaseRepository;
@@ -71,7 +72,15 @@ public class AuthService {
             student.setName(req.getName());
             student.setEmail(req.getEmail());
             student.setPassword(passwordEncoder.encode(req.getPassword()));
-            student.setCareer(careerRepository.findById(req.getCareerId()).orElseThrow(() -> new IllegalArgumentException("Career not found")));
+            student.setCareer(careerRepository.findById(req.getCareerId())
+                    .orElseThrow(() -> new IllegalArgumentException("Career not found")));
+
+            // Crear StudentFeed con valores por defecto
+            StudentFeed studentFeed = new StudentFeed();
+            studentFeed.setHashtag(""); // Asigna un valor por defecto
+            studentFeed.setStudent(student); // Establecer la relación con el estudiante
+
+            student.setStudentFeed(studentFeed);
 
             studentRepository.save(student);
 

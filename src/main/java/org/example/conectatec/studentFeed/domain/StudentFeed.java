@@ -23,19 +23,17 @@ public class StudentFeed {
     private Long id;
 
     @Column(nullable = false)
-    private String hashtag;
+    private String hashtag = ""; // Valor por defecto
 
-    private String media;
-
-    private String caption;
+    private String media = "";   // Opcional: asignar un valor por defecto
+    private String caption = ""; // Opcional: asignar un valor por defecto
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", nullable = true)
     private Student student;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentBox> comments = new ArrayList<>();
-
 
 }
 

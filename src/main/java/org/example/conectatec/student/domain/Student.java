@@ -23,7 +23,7 @@ public class Student extends User {
     private Career career;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_feed_id", unique = true, nullable = false)
+    @JoinColumn(name = "student_feed_id", unique = true, nullable = true)
     private StudentFeed studentFeed;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
