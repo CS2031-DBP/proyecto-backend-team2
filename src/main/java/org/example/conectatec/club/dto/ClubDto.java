@@ -7,6 +7,8 @@ import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.clubFeed.dto.ClubFeedDto;
 import org.example.conectatec.user.dto.UserDto;
 
+import java.util.List;
+
 @Data
 public class ClubDto extends UserDto {
     @NotNull
@@ -17,4 +19,6 @@ public class ClubDto extends UserDto {
     @NotNull
     @Valid
     private ClubFeedDto clubFeed;
+
+    private List<ClubFeedDto> clubFeeds;
 }

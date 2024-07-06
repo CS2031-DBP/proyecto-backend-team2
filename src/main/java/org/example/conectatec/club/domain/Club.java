@@ -9,6 +9,9 @@ import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.user.domain.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,12 +21,11 @@ import org.example.conectatec.user.domain.User;
 public class Club extends User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "club_feed_id", unique = true, nullable = false)
-    private ClubFeed clubFeed;
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubFeed> publications = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "career_id", nullable = false)

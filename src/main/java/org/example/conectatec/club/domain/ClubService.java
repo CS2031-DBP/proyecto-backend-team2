@@ -9,12 +9,14 @@ import org.example.conectatec.club.dto.ClubUpdateDto;
 import org.example.conectatec.club.infrastructure.ClubRepository;
 import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.clubFeed.dto.ClubFeedDto;
+import org.example.conectatec.commentBox.dto.CommentBoxDto;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
@@ -95,6 +97,7 @@ public class ClubService {
         response.setId(club.getId());
         response.setName(club.getName());
         response.setEmail(club.getEmail());
+
         Career career = club.getCareer();
         if (career != null) {
             CareerDto careerDto = new CareerDto();
@@ -104,13 +107,32 @@ public class ClubService {
             response.setCareer(careerDto);
         }
 
-        ClubFeed clubFeed = club.getClubFeed();
-        if (clubFeed != null) {
-            ClubFeedDto clubFeedDto = new ClubFeedDto();
-            clubFeedDto.setId(clubFeed.getId());
-            clubFeedDto.setCaption(clubFeed.getCaption());
-            clubFeedDto.setMedia(clubFeed.getMedia());
-            response.setClubFeed(clubFeedDto);
+        List<ClubFeed> clubFeeds = club.getPublications();
+        if (clubFeeds != null && !clubFeeds.isEmpty()) {
+            List<ClubFeedDto> clubFeedDtos = clubFeeds.stream().map(feed -> {
+                ClubFeedDto clubFeedDto = new ClubFeedDto();
+                clubFeedDto.setId(feed.getId());
+                clubFeedDto.setCaption(feed.getCaption());
+                clubFeedDto.setMedia(feed.getMedia());
+
+                CareerDto feedCareerDto = new CareerDto();
+                feedCareerDto.setId(feed.getCareer().getId());
+                feedCareerDto.setName(feed.getCareer().getName());
+                feedCareerDto.setFacultad(feed.getCareer().getFacultad());
+                clubFeedDto.setCareer(feedCareerDto);
+
+                List<CommentBoxDto> commentDtos = feed.getComments().stream().map(comment -> {
+                    CommentBoxDto commentDto = new CommentBoxDto();
+                    commentDto.setId(comment.getId());
+                    commentDto.setContent(comment.getContent());
+                    return commentDto;
+                }).collect(Collectors.toList());
+                clubFeedDto.setComments(commentDtos);
+
+                return clubFeedDto;
+            }).collect(Collectors.toList());
+
+            response.setClubFeeds(clubFeedDtos);
         }
 
         return response;

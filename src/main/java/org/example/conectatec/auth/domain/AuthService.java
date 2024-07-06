@@ -96,11 +96,13 @@ public class AuthService {
             club.setPassword(passwordEncoder.encode(req.getPassword()));
             club.setCareer(careerRepository.findById(req.getCareerId()).orElseThrow(() -> new IllegalArgumentException("Career not found")));
 
+            // Guardar el club sin publicaciones inicialmente
             clubRepository.save(club);
 
             JwtAuthResponse response = new JwtAuthResponse();
             response.setToken(jwtService.generateToken(club));
             return response;
+
         } else if (req.getRole().equalsIgnoreCase("UTEC")) {
             UtecServices utecServices = new UtecServices();
             utecServices.setRole(Role.UTEC);

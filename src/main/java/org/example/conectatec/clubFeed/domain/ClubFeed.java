@@ -22,15 +22,14 @@ public class ClubFeed {
     private Long id;
 
     private String caption;
-
     private String media;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id", nullable = true)
+    private Club club;
 
     @ManyToOne
     private Career career;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
 
     @OneToMany(mappedBy = "clubPublication", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CommentBox> comments;
