@@ -15,6 +15,7 @@ import org.example.conectatec.user.domain.User;
 import org.example.conectatec.user.infrastructure.UserBaseRepository;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
+import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -107,12 +108,22 @@ public class AuthService {
             utecServices.setEmail(req.getEmail());
             utecServices.setPassword(passwordEncoder.encode(req.getPassword()));
 
+            // Crear y asignar un UtecServicesFeed
+            UtecServicesFeed utecServicesFeed = new UtecServicesFeed();
+            utecServicesFeed.setHashtag("defaultHashtag"); // Asigna un valor por defecto o el valor adecuado
+
+            // Establecer la relación bidireccional
+            utecServices.setUtecServicesFeed(utecServicesFeed);
+            utecServicesFeed.setServicesUTEC(utecServices);
+
+            // Guardar las entidades en el orden correcto
             utecServicesRepository.save(utecServices);
 
             JwtAuthResponse response = new JwtAuthResponse();
             response.setToken(jwtService.generateToken(utecServices));
             return response;
-        } else {
+        }
+        else {
             throw new IllegalArgumentException("Invalid role");
         }
     }

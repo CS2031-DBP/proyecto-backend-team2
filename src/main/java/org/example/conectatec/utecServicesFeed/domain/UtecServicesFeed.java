@@ -23,13 +23,11 @@ public class UtecServicesFeed {
     private Long id;
 
     @Column(nullable = false)
-    private String hashtag;
+    private String hashtag; // Valor por defecto
 
-    @Column(nullable = false)
-    private String media;
+    private String media = "";   // Opcional: asignar un valor por defecto
+    private String caption = ""; // Opcional: asignar un valor por defecto
 
-    @Column(nullable = true)
-    private String caption;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicesUTEC_id")
