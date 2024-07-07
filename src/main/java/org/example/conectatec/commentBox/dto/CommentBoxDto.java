@@ -18,7 +18,6 @@ public class CommentBoxDto {
     @Size(max = 500)
     private String content;
 
-    @NotNull
     @Valid
     private StudentFeedDto publication;
 
@@ -26,11 +25,9 @@ public class CommentBoxDto {
     @Valid
     private StudentDto student;
 
-    @NotNull
     @Valid
     private ClubFeedDto clubPublication;
 
-    @NotNull
     @Valid
     private UtecServicesFeedDto utecPublication;
 }

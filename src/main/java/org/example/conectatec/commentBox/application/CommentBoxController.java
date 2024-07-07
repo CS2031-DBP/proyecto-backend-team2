@@ -1,5 +1,6 @@
 package org.example.conectatec.commentBox.application;
 
+import jakarta.validation.Valid;
 import org.example.conectatec.commentBox.domain.CommentBox;
 import org.example.conectatec.commentBox.domain.CommentBoxService;
 import org.example.conectatec.commentBox.dto.CommentBoxDto;
@@ -27,11 +28,13 @@ public class CommentBoxController {
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @PostMapping
-    public ResponseEntity<CommentBoxDto> createComment(@RequestBody CommentBox commentBox) {
+    public ResponseEntity<CommentBoxDto> createComment(@RequestBody @Valid CommentBoxDto commentBoxDto) {
+        CommentBox commentBox = modelMapper.map(commentBoxDto, CommentBox.class);
         CommentBox savedComment = commentBoxService.saveCommentBox(commentBox);
-        CommentBoxDto commentBoxDto = modelMapper.map(savedComment, CommentBoxDto.class);
-        return new ResponseEntity<>(commentBoxDto, HttpStatus.CREATED);
+        CommentBoxDto responseDto = modelMapper.map(savedComment, CommentBoxDto.class);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
+
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @DeleteMapping("/{id}")

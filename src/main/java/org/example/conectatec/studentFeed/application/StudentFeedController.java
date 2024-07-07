@@ -77,4 +77,14 @@ public class StudentFeedController {
         studentFeedService.deleteStudentPublication(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    // Nuevo endpoint para obtener el ID por hashtag
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
+    @GetMapping("/id-by-hashtag")
+    public ResponseEntity<Long> getStudentFeedIdByHashtag(@RequestParam String hashtag) {
+        Long id = studentFeedService.findStudentFeedIdByHashtag(hashtag);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+
 }

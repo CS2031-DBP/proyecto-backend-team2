@@ -17,4 +17,6 @@ public interface StudentFeedRepository extends JpaRepository<StudentFeed, Long> 
 
     @Query("SELECT sf FROM StudentFeed sf JOIN sf.student s WHERE s.career = :career")
     Optional<StudentFeed> findByCareer(@Param("career") Career career);
+
+    Optional<StudentFeed> findByHashtag(String hashtag);
 }

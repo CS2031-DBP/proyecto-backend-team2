@@ -83,4 +83,11 @@ public class StudentFeedService {
 
         return studentFeedRepository.save(existingFeed);
     }
+
+    @Transactional
+    public Long findStudentFeedIdByHashtag(String hashtag) {
+        StudentFeed studentFeed = studentFeedRepository.findByHashtag(hashtag)
+                .orElseThrow(() -> new ResourceNotFoundException("StudentFeed not found"));
+        return studentFeed.getId();
+    }
 }

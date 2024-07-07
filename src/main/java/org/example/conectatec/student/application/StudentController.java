@@ -94,4 +94,11 @@ public class StudentController {
         return ResponseEntity.ok("¡Hola mundo!");
     }
 
+
+    @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
+    @GetMapping("/id-by-email")
+    public ResponseEntity<Long> getStudentIdByEmail(@RequestParam String email) {
+        Long studentId = studentService.findStudentIdByEmail(email);
+        return new ResponseEntity<>(studentId, HttpStatus.OK);
+    }
 }

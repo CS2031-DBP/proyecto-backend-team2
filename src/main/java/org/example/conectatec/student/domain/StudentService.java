@@ -151,4 +151,12 @@ public class StudentService {
         return response;
     }
 
+
+    @Transactional
+    public Long findStudentIdByEmail(String email) {
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        return student.getId();
+    }
+
 }
