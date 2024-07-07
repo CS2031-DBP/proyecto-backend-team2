@@ -6,6 +6,7 @@ import org.example.conectatec.auth.exceptions.UserAlreadyExistException;
 import org.example.conectatec.career.infrastructure.CareerRepository;
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.club.infrastructure.ClubRepository;
+import org.example.conectatec.clubFeed.domain.ClubFeed;
 import org.example.conectatec.config.JwtService;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.infrastructure.StudentRepository;
@@ -24,6 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -96,8 +99,16 @@ public class AuthService {
             club.setPassword(passwordEncoder.encode(req.getPassword()));
             club.setCareer(careerRepository.findById(req.getCareerId()).orElseThrow(() -> new IllegalArgumentException("Career not found")));
 
-            // Guardar el club sin publicaciones inicialmente
-            clubRepository.save(club);
+            // Crear y asignar una publicación inicial
+            ClubFeed clubFeed = new ClubFeed();
+            clubFeed.setCaption("Default caption");
+            clubFeed.setMedia("Default media");
+            clubFeed.setCareer(club.getCareer());
+            clubFeed.setClub(club);
+
+            List<ClubFeed> publications = new ArrayList<>();
+            publications.add(clubFeed);
+            club.setPublications(publications);
 
             JwtAuthResponse response = new JwtAuthResponse();
             response.setToken(jwtService.generateToken(club));
