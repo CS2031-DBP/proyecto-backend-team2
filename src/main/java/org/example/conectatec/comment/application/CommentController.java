@@ -17,23 +17,31 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public CommentController(CommentService commentService, ModelMapper modelMapper) {
-        this.commentService= commentService;
-        this.modelMapper = modelMapper;
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
     }
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @PostMapping
     public ResponseEntity<CommentDto> createComment(@RequestBody @Valid CommentDto commentDto) {
-        Comment comment = modelMapper.map(commentDto, Comment.class);
-        Comment savedComment = commentService.saveComment(comment);
-        CommentDto responseDto = modelMapper.map(savedComment, CommentDto.class);
+        Comment savedComment = commentService.saveComment(commentDto);
+        CommentDto responseDto = new CommentDto();
+        responseDto.setId(savedComment.getId());
+        responseDto.setContent(savedComment.getContent());
+        responseDto.setStudentId(savedComment.getStudent().getId());
+        if (savedComment.getStudentPost() != null) {
+            responseDto.setStudentPostId(savedComment.getStudentPost().getId());
+        }
+        if (savedComment.getClubPost() != null) {
+            responseDto.setClubPostId(savedComment.getClubPost().getId());
+        }
+        if (savedComment.getUtecPost() != null) {
+            responseDto.setUtecPostId(savedComment.getUtecPost().getId());
+        }
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
-
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
     @DeleteMapping("/{id}")
