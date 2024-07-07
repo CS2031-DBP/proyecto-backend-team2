@@ -51,9 +51,9 @@ public class CommentController {
     }
 
     @PreAuthorize("hasRole('CLUB') or hasRole('UTEC') or hasRole('STUDENT')")
-    @GetMapping
-    public ResponseEntity<List<Comment>> getAllComments() {
-        List<Comment> comments = commentService.findAllComments();
+    @GetMapping("/by-post/{postId}")
+    public ResponseEntity<List<CommentDto>> getCommentsByPostId(@PathVariable Long postId) {
+        List<CommentDto> comments = commentService.findCommentsByPostId(postId);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 }

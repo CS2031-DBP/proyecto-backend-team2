@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.example.conectatec.comment.infrastructure.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -72,7 +73,19 @@ public class CommentService {
     }
 
     @Transactional
-    public List<Comment> findAllComments() {
-        return commentRepository.findAll();
+    public List<CommentDto> findCommentsByPostId(Long postId) {
+        List<Comment> comments = commentRepository.findByStudentPostId(postId);
+        return comments.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private CommentDto convertToDto(Comment comment) {
+        CommentDto commentDto = new CommentDto();
+        commentDto.setId(comment.getId());
+        commentDto.setContent(comment.getContent());
+        commentDto.setStudentId(comment.getStudent().getId());
+        commentDto.setStudentPostId(comment.getStudentPost().getId());
+        commentDto.setClubPostId(comment.getClubPost() != null ? comment.getClubPost().getId() : null);
+        commentDto.setUtecPostId(comment.getUtecPost() != null ? comment.getUtecPost().getId() : null);
+        return commentDto;
     }
 }
