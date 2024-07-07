@@ -2,16 +2,14 @@ package org.example.conectatec.student.domain;
 
 
 import jakarta.transaction.Transactional;
-import jdk.jfr.Frequency;
-import org.example.conectatec.auth.dto.RegisterReq;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.student.dto.StudentDto;
 import org.example.conectatec.student.events.HelloEmailEvent;
 import org.example.conectatec.student.infrastructure.StudentRepository;
-import org.example.conectatec.studentFeed.domain.StudentFeed;
-import org.example.conectatec.studentFeed.dto.StudentFeedDto;
+import org.example.conectatec.studentPost.domain.StudentPost;
+import org.example.conectatec.studentPost.dto.StudentPostDto;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -139,13 +137,13 @@ public class StudentService {
             careerDto.setFacultad(career.getFacultad());
             response.setCareer(careerDto);
         }
-        StudentFeed studentFeed = student.getStudentFeed();
-        if (studentFeed != null) {
-            StudentFeedDto studentFeedDto = new StudentFeedDto();
-            studentFeedDto.setId(studentFeed.getId());
-            studentFeedDto.setCaption(studentFeed.getCaption());
-            studentFeedDto.setMedia(studentFeed.getMedia());
-            response.setStudentFeed(studentFeedDto);
+        StudentPost studentPost = student.getStudentPost();
+        if (studentPost != null) {
+            StudentPostDto studentFeedDto = new StudentPostDto();
+            studentFeedDto.setId(studentPost.getId());
+            studentFeedDto.setCaption(studentPost.getCaption());
+            studentFeedDto.setMedia(studentPost.getMedia());
+            response.setStudentPost(studentFeedDto);
         }
 
         return response;

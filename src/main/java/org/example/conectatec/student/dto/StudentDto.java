@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.conectatec.career.dto.CareerDto;
-import org.example.conectatec.studentFeed.dto.StudentFeedDto;
+import org.example.conectatec.studentPost.dto.StudentPostDto;
 import org.example.conectatec.user.dto.UserDto;
 
 import java.util.ArrayList;
@@ -17,8 +17,8 @@ public class StudentDto extends UserDto {
     private CareerDto career;
     @NotNull
     @Valid
-    private StudentFeedDto studentFeed;
+    private StudentPostDto studentPost;
     @NotNull
     @Valid
-    private List<StudentFeedDto> publications = new ArrayList<>();
+    private List<StudentPostDto> publications = new ArrayList<>();
 }

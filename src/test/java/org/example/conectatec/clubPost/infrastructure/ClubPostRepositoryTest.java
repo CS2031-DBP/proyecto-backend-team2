@@ -1,9 +1,8 @@
-package org.example.conectatec.club.infrastructure;
+package org.example.conectatec.clubPost.infrastructure;
 
 import org.example.conectatec.TestConectatecApplication;
 import org.example.conectatec.career.domain.Career;
 import org.example.conectatec.clubPost.domain.ClubFeed;
-import org.example.conectatec.clubPost.infrastructure.ClubPostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class ClubRepositoryTest extends TestConectatecApplication  {
+public class ClubPostRepositoryTest extends TestConectatecApplication {
 
     @Autowired
     private ClubPostRepository clubPostRepository;

@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.conectatec.career.dto.CareerDto;
-import org.example.conectatec.clubFeed.dto.ClubFeedDto;
+import org.example.conectatec.clubPost.domain.ClubPost;
+import org.example.conectatec.clubPost.dto.ClubPostDto;
 import org.example.conectatec.user.dto.UserDto;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ClubDto extends UserDto {
     private CareerDto career;
     @NotNull
     @Valid
-    private ClubFeedDto clubFeed;
+    private ClubPostDto clubPost;
 
-    private List<ClubFeedDto> clubFeeds;
+    private List<ClubPostDto> clubPosts;
 }

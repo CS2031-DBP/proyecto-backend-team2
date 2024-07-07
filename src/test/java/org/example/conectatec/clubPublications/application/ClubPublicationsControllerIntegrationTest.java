@@ -2,8 +2,8 @@ package org.example.conectatec.clubPublications.application;
 
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.club.infrastructure.ClubRepository;
-import org.example.conectatec.clubFeed.domain.ClubFeed;
-import org.example.conectatec.clubFeed.infrastructure.ClubFeedRepository;
+import org.example.conectatec.clubPost.domain.ClubFeed;
+import org.example.conectatec.clubPost.infrastructure.ClubPostRepository;
 import org.example.conectatec.user.domain.Role;
 import org.example.conectatec.user.domain.User;
 import org.example.conectatec.user.infrastructure.UserBaseRepository;
@@ -37,7 +37,7 @@ public class ClubPublicationsControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ClubFeedRepository clubPublicationsRepository;
+    private ClubPostRepository clubPublicationsRepository;
 
     @Autowired
     private UserBaseRepository<User> userRepository;

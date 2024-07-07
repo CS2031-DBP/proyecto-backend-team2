@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.conectatec.career.domain.Career;
-import org.example.conectatec.studentFeed.domain.StudentFeed;
+import org.example.conectatec.studentPost.domain.StudentPost;
 import org.example.conectatec.user.domain.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ public class Student extends User {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "student_feed_id", unique = true, nullable = true)
-    private StudentFeed studentFeed;
+    private StudentPost studentPost;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StudentFeed> publications = new ArrayList<>();
+    private List<StudentPost> studentPosts = new ArrayList<>();
 }
 

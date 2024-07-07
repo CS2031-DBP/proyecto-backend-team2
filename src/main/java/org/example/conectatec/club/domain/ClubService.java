@@ -7,9 +7,9 @@ import org.example.conectatec.career.dto.CareerDto;
 import org.example.conectatec.club.dto.ClubDto;
 import org.example.conectatec.club.dto.ClubUpdateDto;
 import org.example.conectatec.club.infrastructure.ClubRepository;
-import org.example.conectatec.clubFeed.domain.ClubFeed;
-import org.example.conectatec.clubFeed.dto.ClubFeedDto;
-import org.example.conectatec.commentBox.dto.CommentBoxDto;
+import org.example.conectatec.clubPost.domain.ClubPost;
+import org.example.conectatec.clubPost.dto.ClubPostDto;
+import org.example.conectatec.comment.dto.CommentDto;
 import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,32 +107,32 @@ public class ClubService {
             response.setCareer(careerDto);
         }
 
-        List<ClubFeed> clubFeeds = club.getPublications();
-        if (clubFeeds != null && !clubFeeds.isEmpty()) {
-            List<ClubFeedDto> clubFeedDtos = clubFeeds.stream().map(feed -> {
-                ClubFeedDto clubFeedDto = new ClubFeedDto();
-                clubFeedDto.setId(feed.getId());
-                clubFeedDto.setCaption(feed.getCaption());
-                clubFeedDto.setMedia(feed.getMedia());
+        List<ClubPost> clubPosts = club.getPosts();
+        if (clubPosts != null && !clubPosts.isEmpty()) {
+            List<ClubPostDto> clubPostDtos = clubPosts.stream().map(post -> {
+                ClubPostDto clubPostDto = new ClubPostDto();
+                clubPostDto.setId(post.getId());
+                clubPostDto.setCaption(post.getCaption());
+                clubPostDto.setMedia(post.getMedia());
 
-                CareerDto feedCareerDto = new CareerDto();
-                feedCareerDto.setId(feed.getCareer().getId());
-                feedCareerDto.setName(feed.getCareer().getName());
-                feedCareerDto.setFacultad(feed.getCareer().getFacultad());
-                clubFeedDto.setCareer(feedCareerDto);
+                CareerDto postCareerDto = new CareerDto();
+                postCareerDto.setId(post.getCareer().getId());
+                postCareerDto.setName(post.getCareer().getName());
+                postCareerDto.setFacultad(post.getCareer().getFacultad());
+                clubPostDto.setCareer(postCareerDto);
 
-                List<CommentBoxDto> commentDtos = feed.getComments().stream().map(comment -> {
-                    CommentBoxDto commentDto = new CommentBoxDto();
+                List<CommentDto> commentDtos = post.getComments().stream().map(comment -> {
+                    CommentDto commentDto = new CommentDto();
                     commentDto.setId(comment.getId());
                     commentDto.setContent(comment.getContent());
                     return commentDto;
                 }).collect(Collectors.toList());
-                clubFeedDto.setComments(commentDtos);
+                clubPostDto.setComments(commentDtos);
 
-                return clubFeedDto;
+                return clubPostDto;
             }).collect(Collectors.toList());
 
-            response.setClubFeeds(clubFeedDtos);
+            response.setClubPosts(clubPostDtos);
         }
 
         return response;

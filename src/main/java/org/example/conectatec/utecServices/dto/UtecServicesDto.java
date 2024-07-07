@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.conectatec.user.dto.UserDto;
-import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
-import org.example.conectatec.utecServicesFeed.dto.UtecServicesFeedDto;
+import org.example.conectatec.utecServicesPost.domain.UtecServicesPost;
+import org.example.conectatec.utecServicesPost.dto.UtecServicesPostDto;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +13,9 @@ import java.util.List;
 public class UtecServicesDto extends UserDto {
     @NotNull
     @Valid
-    private List<UtecServicesFeedDto> publications = new ArrayList<>();
+    private List<UtecServicesPostDto> publications = new ArrayList<>();
     @NotNull
     @Valid
-    private UtecServicesFeed utecServicesFeed;
+    private UtecServicesPost utecServicesPost;
 
 }

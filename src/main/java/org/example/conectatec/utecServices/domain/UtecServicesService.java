@@ -6,9 +6,9 @@ import org.example.conectatec.exceptions.ResourceNotFoundException;
 import org.example.conectatec.user.exceptions.UnauthorizeOperationException;
 import org.example.conectatec.utecServices.dto.UtecServicesDto;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
-import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
-import org.example.conectatec.utecServicesFeed.dto.UtecServicesFeedDto;
-import org.example.conectatec.utecServicesFeed.infrastructure.UtecServicesFeedRepository;
+import org.example.conectatec.utecServicesPost.domain.UtecServicesPost;
+import org.example.conectatec.utecServicesPost.dto.UtecServicesPostDto;
+import org.example.conectatec.utecServicesPost.infrastructure.UtecServicesPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.List;
 public class UtecServicesService {
 
     private final UtecServicesRepository utecServicesRepository;
-    private final UtecServicesFeedRepository utecServicesFeedRepository;
+    private final UtecServicesPostRepository utecServicesPostRepository;
     private final AuthorizationUtils authorizationUtils;
 
     @Autowired
-    public UtecServicesService(UtecServicesRepository utecServicesRepository, UtecServicesFeedRepository utecServicesFeedRepository, AuthorizationUtils authorizationUtils) {
+    public UtecServicesService(UtecServicesRepository utecServicesRepository, UtecServicesPostRepository utecServicesPostRepository, AuthorizationUtils authorizationUtils) {
         this.utecServicesRepository = utecServicesRepository;
-        this.utecServicesFeedRepository = utecServicesFeedRepository;
+        this.utecServicesPostRepository = utecServicesPostRepository;
         this.authorizationUtils = authorizationUtils;
     }
 
@@ -98,13 +98,13 @@ public class UtecServicesService {
         response.setName(utecServices.getName());
         response.setEmail(utecServices.getEmail());
 
-        UtecServicesFeed utecServicesFeed = utecServices.getUtecServicesFeed();
-        if (utecServicesFeed != null) {
-            UtecServicesFeedDto utecServicesFeedDto = new UtecServicesFeedDto();
-            utecServicesFeedDto.setId(utecServicesFeed.getId());
-            utecServicesFeedDto.setCaption(utecServicesFeed.getCaption());
-            utecServicesFeedDto.setMedia(utecServicesFeed.getMedia());
-            response.setUtecServicesFeed(utecServicesFeedDto.getUtecServicesFeed());
+        UtecServicesPost utecServicesPost = utecServices.getUtecServicesPost();
+        if (utecServicesPost != null) {
+            UtecServicesPostDto utecServicesPostDto = new UtecServicesPostDto();
+            utecServicesPostDto.setId(utecServicesPost.getId());
+            utecServicesPostDto.setCaption(utecServicesPost.getCaption());
+            utecServicesPostDto.setMedia(utecServicesPost.getMedia());
+            response.setUtecServicesPost(utecServicesPostDto.getUtecServicesPost());
         }
 
         return response;

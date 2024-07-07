@@ -6,17 +6,17 @@ import org.example.conectatec.auth.exceptions.UserAlreadyExistException;
 import org.example.conectatec.career.infrastructure.CareerRepository;
 import org.example.conectatec.club.domain.Club;
 import org.example.conectatec.club.infrastructure.ClubRepository;
-import org.example.conectatec.clubFeed.domain.ClubFeed;
+import org.example.conectatec.clubPost.domain.ClubPost;
 import org.example.conectatec.config.JwtService;
 import org.example.conectatec.student.domain.Student;
 import org.example.conectatec.student.infrastructure.StudentRepository;
-import org.example.conectatec.studentFeed.domain.StudentFeed;
+import org.example.conectatec.studentPost.domain.StudentPost;
 import org.example.conectatec.user.domain.Role;
 import org.example.conectatec.user.domain.User;
 import org.example.conectatec.user.infrastructure.UserBaseRepository;
 import org.example.conectatec.utecServices.domain.UtecServices;
 import org.example.conectatec.utecServices.infrastructure.UtecServicesRepository;
-import org.example.conectatec.utecServicesFeed.domain.UtecServicesFeed;
+import org.example.conectatec.utecServicesPost.domain.UtecServicesPost;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -80,11 +80,11 @@ public class AuthService {
                     .orElseThrow(() -> new IllegalArgumentException("Career not found")));
 
             // Crear StudentFeed con valores por defecto
-            StudentFeed studentFeed = new StudentFeed();
+            StudentPost studentFeed = new StudentPost();
             studentFeed.setHashtag(""); // Asigna un valor por defecto
             studentFeed.setStudent(student); // Establecer la relación con el estudiante
 
-            student.setStudentFeed(studentFeed);
+            student.setStudentPost(studentFeed);
 
             studentRepository.save(student);
 
@@ -100,15 +100,15 @@ public class AuthService {
             club.setCareer(careerRepository.findById(req.getCareerId()).orElseThrow(() -> new IllegalArgumentException("Career not found")));
 
             // Crear y asignar una publicación inicial
-            ClubFeed clubFeed = new ClubFeed();
-            clubFeed.setCaption("Default caption");
-            clubFeed.setMedia("Default media");
-            clubFeed.setCareer(club.getCareer());
-            clubFeed.setClub(club);
+            ClubPost clubPost = new ClubPost();
+            clubPost.setCaption("Default caption");
+            clubPost.setMedia("Default media");
+            clubPost.setCareer(club.getCareer());
+            clubPost.setClub(club);
 
-            List<ClubFeed> publications = new ArrayList<>();
-            publications.add(clubFeed);
-            club.setPublications(publications);
+            List<ClubPost> publications = new ArrayList<>();
+            publications.add(clubPost);
+            club.setPosts(publications);
 
             JwtAuthResponse response = new JwtAuthResponse();
             response.setToken(jwtService.generateToken(club));
@@ -122,11 +122,11 @@ public class AuthService {
             utecServices.setPassword(passwordEncoder.encode(req.getPassword()));
 
             // Crear y asignar un UtecServicesFeed
-            UtecServicesFeed utecServicesFeed = new UtecServicesFeed();
+            UtecServicesPost utecServicesFeed = new UtecServicesPost();
             utecServicesFeed.setHashtag("defaultHashtag"); // Asigna un valor por defecto o el valor adecuado
 
             // Establecer la relación bidireccional
-            utecServices.setUtecServicesFeed(utecServicesFeed);
+            utecServices.setUtecServicesPost(utecServicesFeed);
             utecServicesFeed.setServicesUTEC(utecServices);
 
             // Guardar las entidades en el orden correcto
