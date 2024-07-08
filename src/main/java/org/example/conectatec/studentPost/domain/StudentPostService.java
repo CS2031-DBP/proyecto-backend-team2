@@ -74,9 +74,7 @@ public class StudentPostService {
         if (partialStudentFeed.getCaption() != null) {
             existingFeed.setCaption(partialStudentFeed.getCaption());
         }
-        if (partialStudentFeed.getMedia() != null) {
-            existingFeed.setMedia(partialStudentFeed.getMedia());
-        }
+
         if (partialStudentFeed.getHashtag() != null) {
             existingFeed.setHashtag(partialStudentFeed.getHashtag());
         }

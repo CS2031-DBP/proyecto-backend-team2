@@ -25,7 +25,7 @@ public class StudentPost {
     @Column(nullable = false)
     private String hashtag = ""; // Valor por defecto
 
-    private String media = "";   // Opcional: asignar un valor por defecto
+
     private String caption = ""; // Opcional: asignar un valor por defecto
 
     @ManyToOne(fetch = FetchType.LAZY)

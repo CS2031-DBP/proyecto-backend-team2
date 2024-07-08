@@ -142,7 +142,7 @@ public class StudentService {
             StudentPostDto studentFeedDto = new StudentPostDto();
             studentFeedDto.setId(studentPost.getId());
             studentFeedDto.setCaption(studentPost.getCaption());
-            studentFeedDto.setMedia(studentPost.getMedia());
+
             response.setStudentPost(studentFeedDto);
         }
 

@@ -102,7 +102,7 @@ public class AuthService {
             // Crear y asignar una publicación inicial
             ClubPost clubPost = new ClubPost();
             clubPost.setCaption("Default caption");
-            clubPost.setMedia("Default media");
+
             clubPost.setCareer(club.getCareer());
             clubPost.setClub(club);
 
