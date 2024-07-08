@@ -30,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterReq req) {
+    public ResponseEntity<JwtAuthResponse> register(@RequestBody RegisterReq req) throws java.nio.file.AccessDeniedException {
         return ResponseEntity.ok(authService.register(req));
     }
 

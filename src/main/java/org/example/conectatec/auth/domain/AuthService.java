@@ -41,6 +41,8 @@ public class AuthService {
     private final UtecServicesRepository utecServicesRepository;
     private final CareerRepository careerRepository;
 
+    private static final String UTEC_SECRET_KEY = "utec_secret_key";
+
     @Autowired
     public AuthService(UserBaseRepository<User> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, ModelMapper modelMapper, StudentRepository studentRepository, ClubRepository clubRepository, UtecServicesRepository utecServicesRepository, CareerRepository careerRepository) {
         this.userRepository = userRepository;
@@ -66,7 +68,7 @@ public class AuthService {
         return response;
     }
     @Transactional
-    public JwtAuthResponse register(RegisterReq req) {
+    public JwtAuthResponse register(RegisterReq req) throws AccessDeniedException {
         Optional<User> user = userRepository.findByEmail(req.getEmail());
         if (user.isPresent()) throw new UserAlreadyExistException("Email is already registered");
 
@@ -114,7 +116,11 @@ public class AuthService {
             response.setToken(jwtService.generateToken(club));
             return response;
 
-        } else if (req.getRole().equalsIgnoreCase("UTEC")) {
+        }  else if (req.getRole().equalsIgnoreCase("UTEC")) {
+            if (!req.getSecretKey().equals(UTEC_SECRET_KEY)) {
+                throw new AccessDeniedException("Invalid secret key for UTEC");
+            }
+
             UtecServices utecServices = new UtecServices();
             utecServices.setRole(Role.UTEC);
             utecServices.setName(req.getName());
@@ -135,8 +141,7 @@ public class AuthService {
             JwtAuthResponse response = new JwtAuthResponse();
             response.setToken(jwtService.generateToken(utecServices));
             return response;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Invalid role");
         }
     }

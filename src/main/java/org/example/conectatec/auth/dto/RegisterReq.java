@@ -10,4 +10,5 @@ public class RegisterReq {
     private String role;
     private Long careerId;
     private Long utecServiceId;
+    private String secretKey;
 }
