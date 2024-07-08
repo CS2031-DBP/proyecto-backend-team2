@@ -11,23 +11,19 @@ import org.example.conectatec.utecServicesPost.dto.UtecServicesPostDto;
 
 @Data
 public class CommentDto {
-    @NotNull
-    private Long id;
+
+    private Long id; // Este campo será generado por el sistema y no es necesario en el JSON de entrada
 
     @NotNull
     @Size(max = 500)
     private String content;
 
-    @Valid
-    private StudentPostDto studentPost;
-
     @NotNull
-    @Valid
-    private StudentDto student;
+    private Long studentId;
 
-    @Valid
-    private ClubPostDto clubPost;
+    private Long studentPostId;
 
-    @Valid
-    private UtecServicesPostDto utecPost;
+    private Long clubPostId;
+
+    private Long utecPostId;
 }
