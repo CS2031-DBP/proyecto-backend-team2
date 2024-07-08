@@ -80,11 +80,11 @@ public class AuthService {
                     .orElseThrow(() -> new IllegalArgumentException("Career not found")));
 
             // Crear StudentFeed con valores por defecto
-            StudentPost studentFeed = new StudentPost();
-            studentFeed.setHashtag(""); // Asigna un valor por defecto
-            studentFeed.setStudent(student); // Establecer la relación con el estudiante
+            StudentPost studentPost = new StudentPost();
+            studentPost.setHashtag(""); // Asigna un valor por defecto
+            studentPost.setStudent(student); // Establecer la relación con el estudiante
 
-            student.setStudentPost(studentFeed);
+            student.setStudentPost(studentPost);
 
             studentRepository.save(student);
 

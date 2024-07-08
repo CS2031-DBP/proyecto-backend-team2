@@ -3,6 +3,7 @@ package org.example.conectatec.studentPost.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.conectatec.comment.domain.Comment;
+import org.example.conectatec.image.domain.Image;
 import org.example.conectatec.student.domain.Student;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +35,8 @@ public class StudentPost {
     @OneToMany(mappedBy = "studentPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", nullable = true)
+    private Image image; // Relación con la entidad Image
 }
 
